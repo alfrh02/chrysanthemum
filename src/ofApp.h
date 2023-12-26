@@ -2,7 +2,10 @@
 
 #include "ofMain.h"
 
+#include "config.h"
 #include "player.h"
+
+using namespace glm;
 
 class ofApp : public ofBaseApp{
 
@@ -23,8 +26,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		int COLOR_BG = 0x050505;
-		int COLOR_FG = 0xe0e0e0;
+		double deltaTime = 0;
+		bool debugMode = false;
 
-		Player player{};
+		Player player{vec2(0, 0)};
 };

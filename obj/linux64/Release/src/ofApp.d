@@ -321,6 +321,7 @@ obj/linux64/Release/src/ofApp.o: \
  /home/alfr/projects/code/cpp/openframeworks/libs/openFrameworks/3d/of3dUtils.h \
  /home/alfr/projects/code/cpp/openframeworks/libs/openFrameworks/3d/ofCamera.h \
  /home/alfr/projects/code/cpp/openframeworks/libs/openFrameworks/3d/ofEasyCam.h \
+ /home/alfr/projects/code/cpp/spaceship/src/config.h \
  /home/alfr/projects/code/cpp/spaceship/src/player/player.h
 /home/alfr/projects/code/cpp/spaceship/src/ofApp.h:
 /home/alfr/projects/code/cpp/openframeworks/libs/openFrameworks/ofMain.h:
@@ -644,4 +645,5 @@ obj/linux64/Release/src/ofApp.o: \
 /home/alfr/projects/code/cpp/openframeworks/libs/openFrameworks/3d/of3dUtils.h:
 /home/alfr/projects/code/cpp/openframeworks/libs/openFrameworks/3d/ofCamera.h:
 /home/alfr/projects/code/cpp/openframeworks/libs/openFrameworks/3d/ofEasyCam.h:
+/home/alfr/projects/code/cpp/spaceship/src/config.h:
 /home/alfr/projects/code/cpp/spaceship/src/player/player.h:

@@ -2,27 +2,59 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+    player.setPosition(vec2(ofGetWidth() / 2, ofGetHeight() / 2));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    player.update(deltaTime);
 
+    deltaTime += ofGetLastFrameTime();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofBackground(COLOR_BG);
+    ofBackground(COLOURS.BACKGROUND);
+    player.draw();
+
+    if (debugMode) {
+        // ofDrawBitmapStringHighlight(to_string(deltaTime), vec2(0, 0), ofColor(COLOURS.DEBUG_TEXT), ofColor(COLOURS.BACKGROUND));
+        ofSetColor(COLOURS.DEBUG_TEXT);
+        ofDrawBitmapString(
+            to_string(deltaTime),
+            vec2(8, 16)
+        );
+
+        // mouse coordinates
+        ofDrawBitmapStringHighlight(
+            to_string(ofGetMouseX()) + ", " + to_string(ofGetMouseY()),
+            vec2(ofGetMouseX(), ofGetMouseY()),
+            ofColor(COLOURS.DEBUG_TEXT),
+            ofColor(COLOURS.BACKGROUND)
+        );
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+    // cout << char(key) << ", " << key << endl;
 
+    player.keyPressed(key);
+
+    if (key == 3680) {
+        debugMode = true;
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
+    // cout << "released " << char(key) << ", " << key << endl;
 
+    player.keyReleased(key);
+
+    if (key == 3680) {
+        debugMode = false;
+    }
 }
 
 //--------------------------------------------------------------
