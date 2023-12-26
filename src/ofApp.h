@@ -29,5 +29,5 @@ class ofApp : public ofBaseApp{
 		double deltaTime = 0;
 		bool debugMode = true;
 
-		Player player{vec2(0, 0), vec2(0, 0)};
+		Player player;
 };

@@ -1,16 +1,11 @@
 #include "missile.h"
 
 Missile::Missile(vec2 position, vec2 direction, float rotation) {
-    _position = position - (vec2(_size, _size) / 2);
+    _position = position;
     _direction = direction;
     _rotation = rotation;
-
-    cout << "fired a misle." << endl;
 }
 
-Missile::~Missile() {
-    cout << "deleted a misle." << endl;
-}
 
 void Missile::update(double deltaTime) {
     _lifetime += ofGetLastFrameTime() * 2;

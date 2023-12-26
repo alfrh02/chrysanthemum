@@ -1,16 +1,5 @@
 #include "player.h"
 
-Player::Player(vec2 position, vec2 direction) {
-    cout << "Creating Player" << endl;
-
-    _position = position;
-    _direction = direction;
-}
-
-Player::~Player() {
-    cout << "Destroying Player" << endl;
-}
-
 void Player::update(double deltaTime) {
     // calculate directional vector
     _direction = vec2(sin(ofDegToRad(_rotation)), -cos(ofDegToRad(_rotation)));
@@ -98,7 +87,7 @@ void Player::keyPressed(int key) {
             _d = true;
             break;
         case 32:
-            missiles.push_back(new Missile{_position, _direction, _rotation});
+            missiles.push_back(new Missile(_position, _direction, _rotation));
             break;
     }
 }
@@ -118,8 +107,4 @@ void Player::keyReleased(int key) {
             _d = false;
             break;
     }
-}
-
-void Player::setPosition(vec2 position) {
-    _position = position;
 }
