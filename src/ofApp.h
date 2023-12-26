@@ -27,7 +27,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		double deltaTime = 0;
-		bool debugMode = false;
+		bool debugMode = true;
 
-		Player player{vec2(0, 0)};
+		Player player{vec2(0, 0), vec2(0, 0)};
 };

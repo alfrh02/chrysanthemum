@@ -322,7 +322,9 @@ obj/linux64/Release/src/main.o: \
  /home/alfr/projects/code/cpp/openframeworks/libs/openFrameworks/3d/ofEasyCam.h \
  /home/alfr/projects/code/cpp/spaceship/src/ofApp.h \
  /home/alfr/projects/code/cpp/spaceship/src/config.h \
- /home/alfr/projects/code/cpp/spaceship/src/player/player.h
+ /home/alfr/projects/code/cpp/spaceship/src/player/player.h \
+ /home/alfr/projects/code/cpp/spaceship/src/entity/entity.h \
+ /home/alfr/projects/code/cpp/spaceship/src/missile/missile.h
 /home/alfr/projects/code/cpp/openframeworks/libs/openFrameworks/ofMain.h:
 /home/alfr/projects/code/cpp/openframeworks/libs/openFrameworks/utils/ofConstants.h:
 /home/alfr/projects/code/cpp/openframeworks/libs/tess2/include/tesselator.h:
@@ -647,3 +649,5 @@ obj/linux64/Release/src/main.o: \
 /home/alfr/projects/code/cpp/spaceship/src/ofApp.h:
 /home/alfr/projects/code/cpp/spaceship/src/config.h:
 /home/alfr/projects/code/cpp/spaceship/src/player/player.h:
+/home/alfr/projects/code/cpp/spaceship/src/entity/entity.h:
+/home/alfr/projects/code/cpp/spaceship/src/missile/missile.h:

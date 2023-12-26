@@ -38,7 +38,6 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     // cout << char(key) << ", " << key << endl;
-
     player.keyPressed(key);
 
     if (key == 3680) {
