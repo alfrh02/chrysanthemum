@@ -1,15 +1,12 @@
 #include "missile.h"
 
-Missile::Missile(vec2 position, vec2 direction, float rotation, float size) {
-    _position = position;
-    _direction = direction;
-    _rotation = rotation;
+Missile::Missile(vec2 position, vec2 direction, float rotation, float size)
+: Entity(position, direction, rotation, size) {
 
-    _size = size;
 }
 
-
 void Missile::update(double deltaTime) {
+    _boundingBox.setPosition(_position.x - _size/2, _position.y - _size/2);
     _position += _direction * _speed;
     _rotation += 1;
 }
@@ -17,8 +14,8 @@ void Missile::update(double deltaTime) {
 void Missile::draw() {
     ofPushView();
         ofTranslate(_position);
-        ofTranslate(vec2(-_size/2, -_size/2));
         ofRotateDeg(_rotation);
+        ofTranslate(vec2(-_size/2, -_size/2));
 
         ofNoFill();
         ofSetColor(COLOURS.FOREGROUND);

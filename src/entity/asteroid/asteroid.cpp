@@ -6,27 +6,33 @@ Asteroid::Asteroid(vec2 position, vec2 direction, float rotation, float size, un
     _xAmp = xAmp;
     _yAmp = yAmp;
 
-    _rotation_speed = (ofRandom(1) - 2) * 0.1;
+    _rotation_speed = (ofRandom(2) + 0.2) * 0.1;
 }
 
 void Asteroid::update(double deltaTime) {
+    _boundingBox.setPosition(_position.x - _size/2, _position.y - _size/2);
     _rotation += _rotation_speed;
 }
 
 void Asteroid::draw() {
-    ofSetColor(COLOURS.RED);
+    ofSetColor(COLOURS.FOREGROUND);
 
     ofPushView();
         ofTranslate(_position);
         ofRotateDeg(_rotation);
+        ofTranslate(vec2(-_size/4, -_size/4));
 
         ofBeginShape();
             for (float i = 0; i < 6; i += 0.5) {
                 ofVertex(
-                    (cos(i) + ofNoise(_seed/i)) * (_size * _xAmp),
-                    (sin(i) + ofNoise(_seed/i)) * (_size * _yAmp)
+                    (cos(i) + ofNoise(_seed/i)) * (_size/2 * _xAmp),
+                    (sin(i) + ofNoise(_seed/i)) * (_size/2 * _yAmp)
                 );
             }
+            ofVertex(
+                (cos(0.5) + ofNoise(_seed/0.5)) * (_size/2 * _xAmp),
+                (sin(0.5) + ofNoise(_seed/0.5)) * (_size/2 * _yAmp)
+            );
         ofEndShape();
     ofPopView();
 }

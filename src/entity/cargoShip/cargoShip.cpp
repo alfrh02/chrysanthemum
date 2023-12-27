@@ -6,6 +6,9 @@ CargoShip::CargoShip(vec2 position, vec2 direction, float rotation, float size, 
 
 void CargoShip::update(double deltaTime) {
     s = _size + (sin(deltaTime)*3);
+    _boundingBox.setPosition(_position.x - s, _position.y - s*2);
+    _boundingBox.setWidth(s*2);
+    _boundingBox.setHeight(s*6);
 
     if (int(deltaTime) % 2) {
         _hazardLights = true;
@@ -60,5 +63,4 @@ void CargoShip::draw() {
             ofDrawCircle(vec2(s, s*2), s/10);
         }
     ofPopView();
-
 }

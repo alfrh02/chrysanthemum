@@ -3,8 +3,11 @@
 #include "ofMain.h"
 
 #include "config.h"
+
 #include "player.h"
 #include "cargoShip.h"
+
+#include "missile.h"
 #include "asteroid.h"
 
 using namespace glm;
@@ -31,8 +34,11 @@ class ofApp : public ofBaseApp{
 		double deltaTime = 0;
 		bool debugMode = true;
 
-		vector<Asteroid*> asteroids;
-
 		Player player;
-		CargoShip cargoShip;
+		// CargoShip cargoShip;
+
+		// vector<Missile*> missiles;
+		// vector<Asteroid*> asteroids;
+
+		vector<Entity*> entities;
 };

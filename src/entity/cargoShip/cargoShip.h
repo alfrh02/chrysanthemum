@@ -6,8 +6,8 @@ class CargoShip : public Entity {
     public:
         CargoShip(vec2 position = vec2(0, 0), vec2 direction = vec2(0, 0), float rotation = 0.0, float size = 50.0, unsigned short health = 1000);
 
-        void update(double deltaTime);
-        void draw();
+        void update(double deltaTime) override;
+        void draw() override;
 
     private:
         float s = _size; // used in draw(), modified by deltaTime in update()

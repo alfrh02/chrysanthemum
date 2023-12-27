@@ -5,6 +5,8 @@ Player::Player(vec2 position, vec2 direction, float rotation, float size, unsign
 }
 
 void Player::update(double deltaTime) {
+    _boundingBox.setPosition(_position.x - _size/2, _position.y - _size/2);
+
     // calculate directional vector
     _direction = vec2(sin(ofDegToRad(_rotation)), -cos(ofDegToRad(_rotation)));
 
@@ -41,10 +43,6 @@ void Player::update(double deltaTime) {
     } else if (_position.y < 0 - _size) {
         _position.y = ofGetHeight() + _size;
     }
-
-    for (int i = 0; i < missiles.size(); i++) {
-        missiles[i]->update(deltaTime);
-    }
 }
 
 void Player::draw() {
@@ -58,15 +56,11 @@ void Player::draw() {
 
         ofSetPolyMode(OF_POLY_WINDING_ODD);
         ofBeginShape();
-            ofVertex(-_size, _size);
-            ofVertex(0,      -_size);
-            ofVertex(_size,  _size);
+            ofVertex(-_size / 2, _size / 2);
+            ofVertex(0,         -_size / 2);
+            ofVertex(_size / 2,  _size / 2);
         ofEndShape();
     ofPopView();
-
-    for (int i = 0; i < missiles.size(); i++) {
-        missiles[i]->draw();
-    }
 }
 
 void Player::keyPressed(int key) {
@@ -82,9 +76,6 @@ void Player::keyPressed(int key) {
             break;
         case 100:
             _d = true;
-            break;
-        case 32:
-            missiles.push_back(new Missile(_position, _direction, _rotation));
             break;
     }
 }
