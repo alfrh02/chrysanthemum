@@ -1,5 +1,9 @@
 #include "player.h"
 
+Player::Player(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed)
+: Entity(position, direction, rotation, size, health, speed) {
+}
+
 void Player::update(double deltaTime) {
     // calculate directional vector
     _direction = vec2(sin(ofDegToRad(_rotation)), -cos(ofDegToRad(_rotation)));

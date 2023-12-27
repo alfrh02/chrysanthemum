@@ -4,6 +4,8 @@
 
 #include "config.h"
 #include "player.h"
+#include "cargoShip.h"
+#include "asteroid.h"
 
 using namespace glm;
 
@@ -29,5 +31,8 @@ class ofApp : public ofBaseApp{
 		double deltaTime = 0;
 		bool debugMode = true;
 
+		vector<Asteroid*> asteroids;
+
 		Player player;
+		CargoShip cargoShip;
 };

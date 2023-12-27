@@ -7,6 +7,8 @@
 class Player : public Entity {
 
     public:
+        Player(vec2 position = vec2(0, 0), vec2 direction = vec2(0, 0), float rotation = 0.0, float size = 20.0, unsigned short health = 100, float speed = 0.0);
+
         void update(double deltaTime);
         void draw();
         void keyPressed(int key);
@@ -16,6 +18,7 @@ class Player : public Entity {
 
     private:
         // player input
+        // toggled to true on key input, used in vectors for player movement
         bool _w = false;
         bool _a = false;
         bool _s = false;
@@ -26,6 +29,4 @@ class Player : public Entity {
         const float _SPEED_RETURN_RATE = 0.05;
 
         const float _ROTATION_SPEED = 1.25;
-
-        unsigned short _size = 20;
 };

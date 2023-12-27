@@ -4,7 +4,7 @@
 
 class Missile : public Entity {
     public:
-        Missile(vec2 position, vec2 direction, float rotation);
+        Missile(vec2 position, vec2 direction, float rotation, float size = 8.0);
 
         void update(double deltaTime);
         void draw();
@@ -12,8 +12,4 @@ class Missile : public Entity {
         bool isDeadYet();
     private:
         float _speed = 4;
-        short _size = 8;
-
-        double _lifetime = 0;
-        unsigned short _lifespan = 16;
 };

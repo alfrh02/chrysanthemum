@@ -2,13 +2,21 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    cargoShip.setPosition(vec2(ofGetWidth() / 2, ofGetHeight() / 2));
     player.setPosition(vec2(ofGetWidth() / 2, ofGetHeight() / 2));
+
+    for (int i = 0; i < 4; i++) {
+        asteroids.push_back(new Asteroid(vec2(ofGetWidth() / (i + 1), ofGetHeight() / 2)));
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    for (int i = 0; i < asteroids.size(); i++) {
+        asteroids[i]->update(deltaTime);
+    }
+    cargoShip.update(deltaTime);
     player.update(deltaTime);
-    // colonyShip.update(deltaTime);
 
     deltaTime += ofGetLastFrameTime();
 }
@@ -17,9 +25,16 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(COLOURS.BACKGROUND);
 
+    for (int i = 0; i < asteroids.size(); i++) {
+        asteroids[i]->draw();
+    }
+
+    cargoShip.draw();
+    player.draw();
+
     if (debugMode) {
         // ofDrawBitmapStringHighlight(to_string(deltaTime), vec2(0, 0), ofColor(COLOURS.DEBUG_TEXT), ofColor(COLOURS.BACKGROUND));
-        ofSetColor(COLOURS.DEBUG_TEXT);
+        ofSetColor(COLOURS.GREEN);
         ofDrawBitmapString(
             to_string(deltaTime),
             vec2(8, 16)
@@ -29,55 +44,18 @@ void ofApp::draw(){
         ofDrawBitmapStringHighlight(
             to_string(ofGetMouseX()) + ", " + to_string(ofGetMouseY()),
             vec2(ofGetMouseX(), ofGetMouseY()),
-            ofColor(COLOURS.DEBUG_TEXT),
+            ofColor(COLOURS.GREEN),
             ofColor(COLOURS.BACKGROUND)
         );
     }
 
-    float s = 50 + (sin(deltaTime)*3);
-    ofPushView();
-        ofTranslate(vec2(ofGetWidth() / 2, ofGetHeight() / 2));
-
-        ofDrawRectangle(vec2(-s/2, -s/2), s, s);
-        ofDrawLine(vec2(-s/2, -s/2), vec2(s/2, s/2));
-        ofDrawLine(vec2(s/2, -s/2), vec2(-s/2, s/2));
-
-        ofTranslate(vec2(0, -s)); // jump up one (top box)
-
-        ofDrawRectangle(vec2(-s/2, -s/2), s, s);
-        ofDrawLine(vec2(-s/2, -s/2), vec2(s/2, s/2));
-        ofDrawLine(vec2(s/2, -s/2), vec2(-s/2, s/2));
-
-        ofTranslate(vec2(0, s*2)); // jump down two (last full box)
-
-        ofDrawRectangle(vec2(-s/2, -s/2), s, s);
-        ofDrawLine(vec2(-s/2, -s/2), vec2(s/2, s/2));
-        ofDrawLine(vec2(s/2, -s/2), vec2(-s/2, s/2));
-
-        ofTranslate(vec2(0, s)); // jump down one more (bottom box)
-        ofDrawLine(vec2(-s/2, -s/2), vec2(-s/2, s/2 * 0.33));
-        ofDrawLine(vec2(s/2, -s/2), vec2(s/2, s/2 * 0.33));
-
-        ofDrawLine(vec2(0, -s/2 * 0.33), vec2(-s, s/2));
-        ofDrawLine(vec2(0, -s/2 * 0.33), vec2(s, s/2));
-
-        ofDrawLine(vec2(-s, s/2), vec2(-s, s*2));
-        ofDrawLine(vec2(s, s/2), vec2(s, s*2));
-
-        ofDrawLine(vec2(-s, s*2), vec2(0, s/2));
-        ofDrawLine(vec2(s, s*2), vec2(0, s/2));
-
-        // ofDrawCircle(vec2(s, s*2), s/4);
-        // ofDrawCircle(vec2(0, s/2), s/4);
-        // ofDrawCircle(vec2((0 + s) / 1.5, (s*2 + s/2) / 1.5), s/4);
-        ofDrawLine(vec2((0 + s) / 2, (s*2 + s/2) / 2), vec2((0 + s) / 1.5, s*2));
-        ofDrawLine(vec2((0 - s) / 2, (s*2 + s/2) / 2), vec2((0 - s) / 1.5, s*2));
-    ofPopView();
-    player.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+    if (char(key) == '`') {
+        debugMode = !debugMode;
+    }
     player.keyPressed(key);
 }
 
