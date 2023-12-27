@@ -12,7 +12,7 @@ class Missile : public Entity {
         bool isDeadYet();
     private:
         float _speed = 4;
-        short _size = 16;
+        short _size = 8;
 
         double _lifetime = 0;
         unsigned short _lifespan = 16;

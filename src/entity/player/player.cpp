@@ -26,15 +26,16 @@ void Player::update(double deltaTime) {
         }
     }
 
-    if (_position.x > ofGetWidth()) {
-        _position.x = 0;
-    } else if (_position.x < 0) {
-        _position.x = ofGetWidth();
+    // handle player going off-screen
+    if (_position.x > ofGetWidth() + _size) {
+        _position.x = 0 - _size;
+    } else if (_position.x < 0 - _size) {
+        _position.x = ofGetWidth() + _size;
     }
-    if (_position.y > ofGetHeight()) {
-        _position.y = 0;
-    } else if (_position.y < 0) {
-        _position.y = ofGetHeight();
+    if (_position.y > ofGetHeight() + _size) {
+        _position.y = 0 - _size;
+    } else if (_position.y < 0 - _size) {
+        _position.y = ofGetHeight() + _size;
     }
 
     for (int i = 0; i < missiles.size(); i++) {
@@ -48,23 +49,15 @@ void Player::draw() {
         ofTranslate(_position);
         ofRotateDeg(_rotation);
 
-        short size = _size;
-
+        ofNoFill();
         ofSetColor(COLOURS.FOREGROUND);
-        ofDrawTriangle(
-            vec2(-size, size),
-            vec2(0,     -size - 5),
-            vec2(size,  size)
-        );
 
-        size -= 1;
-
-        ofSetColor(COLOURS.BACKGROUND);
-        ofDrawTriangle(
-            vec2(-size, size),
-            vec2(0,      -size - 5),
-            vec2(size,  size)
-        );
+        ofSetPolyMode(OF_POLY_WINDING_ODD);
+        ofBeginShape();
+            ofVertex(-_size, _size);
+            ofVertex(0,      -_size);
+            ofVertex(_size,  _size);
+        ofEndShape();
     ofPopView();
 
     for (int i = 0; i < missiles.size(); i++) {

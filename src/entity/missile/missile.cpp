@@ -8,30 +8,28 @@ Missile::Missile(vec2 position, vec2 direction, float rotation) {
 
 
 void Missile::update(double deltaTime) {
-    _lifetime += ofGetLastFrameTime() * 2;
+    _lifetime += ofGetLastFrameTime();
     _position += _direction * _speed;
+    _rotation += 1;
 }
 
 void Missile::draw() {
-    unsigned short size = _size;
-
-    ofSetColor(COLOURS.FOREGROUND);
-
     ofPushView();
         ofTranslate(_position);
+        ofTranslate(vec2(-_size/2, -_size/2));
         ofRotateDeg(_rotation);
-        if ((int)_lifetime % 2) {
-            ofTranslate(vec2(size/2, -size/4));
-            ofRotateDeg(45);
-        }
 
+        ofNoFill();
         ofSetColor(COLOURS.FOREGROUND);
-        ofDrawRectangle(vec2(0, 0), size, size);
 
-        size -= 1;
-        ofSetColor(COLOURS.BACKGROUND);
-
-        ofDrawRectangle(vec2(0.5, 0.5), size, size);
+        ofDrawRectangle(0, 0, _size, _size);
+        // ofSetPolyMode(OF_POLY_WINDING_NONZERO);
+        // ofBeginShape();
+        //     ofVertex(0, 0);
+        //     ofVertex(_size, 0);
+        //     ofVertex(_size, _size);
+        //     ofVertex(0, _size);
+        // ofEndShape();
     ofPopView();
 }
 
