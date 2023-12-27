@@ -36,17 +36,20 @@ void Entity::takeDamage(int damage) {
     _health -= damage;
 }
 
-void Entity::addForce(vec2 direction, float speed) {
-    _direction = direction;
-    _speed = speed;
-}
-
 void Entity::setPosition(vec2 position) {
     _position = position;
 }
 
+void Entity::setDirection(vec2 direction) {
+    _direction = direction;
+}
+
 void Entity::setSize(float size) {
     _size = size;
+}
+
+void Entity::setSpeed(float speed) {
+    _speed = speed;
 }
 
 vec2 Entity::getPosition() {
@@ -59,6 +62,10 @@ vec2 Entity::getDirection() {
 
 float Entity::getRotation() {
     return _rotation;
+}
+
+float Entity::getSpeed() {
+    return _speed;
 }
 
 ofRectangle Entity::getBoundingBox() {

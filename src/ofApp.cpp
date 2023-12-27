@@ -23,6 +23,7 @@ void ofApp::setup(){
 void ofApp::update(){
     for (int i = 0; i < entities.size(); i++) {
         entities[i]->update(deltaTime);
+        // iteratre thru the rest of the items in the vector (especially so we aren't comparing entities[i] to itself)
         for (int y = i + 1; y < entities.size(); y++) {
             // using ofRectangle.instersects() that openFrameworks has kindly gifted us for AABB collision detection
             if (entities[i]->getBoundingBox().intersects(entities[y]->getBoundingBox())) {
@@ -32,9 +33,16 @@ void ofApp::update(){
 
                 cout << e1 << ", " << e2 << endl;
                 if (e1 == "8Asteroid" && e2 == "8Asteroid") {
-                    vec2 dir;
-                    entities[i]->addForce(-entities[i]->getDirection(), 8.0);
-                    entities[y]->addForce(-entities[y]->getDirection(), 8.0);
+                    if (entities[i]->getSpeed() < 0.1) {
+                        entities[i]->setSpeed(0.25);
+                    }
+                    entities[i]->setSpeed(entities[i]->getSpeed() / 2);
+                    vec2 dir = entities[i]->getPosition() - entities[y]->getPosition();
+                    entities[i]->setDirection(dir);
+
+                    entities[y]->setSpeed(entities[i]->getSpeed() / 2);
+                    dir = entities[y]->getPosition() - entities[i]->getPosition();
+                    entities[y]->setDirection(dir);
                 }
             }
         }
@@ -107,7 +115,8 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+    Asteroid* a = new Asteroid(vec2(x, y));
+    entities.push_back(a);
 }
 
 //--------------------------------------------------------------
@@ -136,6 +145,6 @@ void ofApp::gotMessage(ofMessage msg){
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }

@@ -5,7 +5,6 @@ CargoShip::CargoShip(vec2 position, vec2 direction, float rotation, float size, 
 }
 
 void CargoShip::update(double deltaTime) {
-    s = _size + (sin(deltaTime)*3);
     _boundingBox.setPosition(_position.x - s, _position.y - s*2);
     _boundingBox.setWidth(s*2);
     _boundingBox.setHeight(s*6);
@@ -15,6 +14,8 @@ void CargoShip::update(double deltaTime) {
     } else {
         _hazardLights = false;
     }
+
+    s = _size + (sin(deltaTime)*3);
 }
 
 void CargoShip::draw() {
