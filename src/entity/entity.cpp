@@ -16,6 +16,7 @@ Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsign
 }
 
 void Entity::update(double deltaTime) {
+    // for some reason ofRectangle.setPosition() will not take a vec2, but will take x and y individually.
     _boundingBox.setPosition(_position.x - _size/2, _position.y - _size/2);
 }
 
@@ -29,6 +30,15 @@ void Entity::drawBoundingBox() {
 
     ofSetColor(COLOURS.GREEN);
     ofDrawLine(_position, _position + (_direction * _size));
+}
+
+void Entity::takeDamage(int damage) {
+    _health -= damage;
+}
+
+void Entity::addForce(vec2 direction, float speed) {
+    _direction = direction;
+    _speed = speed;
 }
 
 void Entity::setPosition(vec2 position) {
@@ -49,4 +59,8 @@ vec2 Entity::getDirection() {
 
 float Entity::getRotation() {
     return _rotation;
+}
+
+ofRectangle Entity::getBoundingBox() {
+    return _boundingBox;
 }

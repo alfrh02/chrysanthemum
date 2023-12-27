@@ -13,13 +13,19 @@ class Entity {
         virtual void draw();
 
         void drawBoundingBox();
+        void takeDamage(int damage);
+        void addForce(vec2 direction, float speed);
 
+        // setters
         void setPosition(vec2 position);
         void setSize(float size);
 
+        // getters
         vec2 getPosition();
         vec2 getDirection();
         float getRotation();
+        ofRectangle getBoundingBox();
+
     protected:
         vec2 _position;
         vec2 _direction;

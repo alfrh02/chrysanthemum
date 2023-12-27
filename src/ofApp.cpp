@@ -8,12 +8,12 @@ void ofApp::setup(){
     CargoShip* c = new CargoShip(vec2(ofGetWidth() / 2, ofGetHeight() / 2));
     entities.push_back(c);
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 16; i++) {
         Asteroid* a = new Asteroid(vec2(ofRandom(ofGetWidth() / 3) + 100, ofRandom(ofGetHeight())));
         entities.push_back(a);
     }
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 16; i++) {
         Asteroid* a = new Asteroid(vec2(ofRandom(ofGetWidth() / 3) + (ofGetWidth() / 3) * 2, ofRandom(ofGetHeight())));
         entities.push_back(a);
     }
@@ -23,6 +23,21 @@ void ofApp::setup(){
 void ofApp::update(){
     for (int i = 0; i < entities.size(); i++) {
         entities[i]->update(deltaTime);
+        for (int y = i + 1; y < entities.size(); y++) {
+            // using ofRectangle.instersects() that openFrameworks has kindly gifted us for AABB collision detection
+            if (entities[i]->getBoundingBox().intersects(entities[y]->getBoundingBox())) {
+                // we dereference entities[i] to get the derived class name
+                string e1 = typeid(*entities[i]).name();
+                string e2 = typeid(*entities[y]).name();
+
+                cout << e1 << ", " << e2 << endl;
+                if (e1 == "8Asteroid" && e2 == "8Asteroid") {
+                    vec2 dir;
+                    entities[i]->addForce(-entities[i]->getDirection(), 8.0);
+                    entities[y]->addForce(-entities[y]->getDirection(), 8.0);
+                }
+            }
+        }
     }
 
     player.update(deltaTime);

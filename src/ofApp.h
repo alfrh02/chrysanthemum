@@ -1,5 +1,7 @@
 #pragma once
 
+#include <typeinfo>
+
 #include "ofMain.h"
 
 #include "config.h"
@@ -32,13 +34,10 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		double deltaTime = 0;
-		bool debugMode = true;
+
+		bool debugMode = false;
 
 		Player player;
-		// CargoShip cargoShip;
-
-		// vector<Missile*> missiles;
-		// vector<Asteroid*> asteroids;
 
 		vector<Entity*> entities;
 };
