@@ -2,7 +2,7 @@
 
 using namespace glm;
 
-Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed) {
+Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed, unsigned short damage) {
     _position = position;
     _direction = direction;
     _rotation = rotation;
@@ -11,8 +11,11 @@ Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsign
     _speed = speed;
     _health = health;
     _maxHealth = health;
+    _damage = damage;
 
     _boundingBox = ofRectangle(_position - _size/2, _size, _size);
+
+    cout << "constructor" << endl;
 }
 
 void Entity::update(double deltaTime) {
@@ -30,6 +33,10 @@ void Entity::drawBoundingBox() {
 
     ofSetColor(COLOURS.GREEN);
     ofDrawLine(_position, _position + (_direction * _size));
+
+    ofPushView();
+        ofDrawBitmapStringHighlight(to_string(_health), _position, COLOURS.RED, COLOURS.FOREGROUND);
+    ofPopView();
 }
 
 void Entity::takeDamage(int damage) {
@@ -52,6 +59,10 @@ void Entity::setSpeed(float speed) {
     _speed = speed;
 }
 
+void Entity::setHealth(unsigned short health) {
+    _health = health;
+}
+
 vec2 Entity::getPosition() {
     return _position;
 }
@@ -66,6 +77,14 @@ float Entity::getRotation() {
 
 float Entity::getSpeed() {
     return _speed;
+}
+
+unsigned short Entity::getHealth() {
+    return _health;
+}
+
+unsigned short Entity::getDamage() {
+    return _damage;
 }
 
 ofRectangle Entity::getBoundingBox() {

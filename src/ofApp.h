@@ -7,10 +7,7 @@
 #include "config.h"
 
 #include "player.h"
-#include "cargoShip.h"
-
-#include "missile.h"
-#include "asteroid.h"
+#include "entityManager.h"
 
 using namespace glm;
 
@@ -39,5 +36,6 @@ class ofApp : public ofBaseApp{
 
 		Player player;
 
-		vector<Entity*> entities;
+		EntityManager entities;
+		// vector<Entity*> entities;
 };

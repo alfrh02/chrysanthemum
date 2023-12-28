@@ -1,8 +1,7 @@
 #include "missile.h"
 
 Missile::Missile(vec2 position, vec2 direction, float rotation, float size)
-: Entity(position, direction, rotation, size) {
-
+: Entity(position, direction, rotation, size, 1) {
 }
 
 void Missile::update(double deltaTime) {
