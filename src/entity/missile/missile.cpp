@@ -1,13 +1,22 @@
 #include "missile.h"
 
-Missile::Missile(vec2 position, vec2 direction, float rotation, float size)
-: Entity(position, direction, rotation, size, 1) {
+Missile::Missile(vec2 position, vec2 direction, float rotation, double deltaTime)
+: Entity(position, direction, rotation, 8.0, 1) {
+    _speed = 4.0;
+    _rotation_speed = 1.0;
+    _identity = "Missile";
+
+    _creationTime = deltaTime;
 }
 
 void Missile::update(double deltaTime) {
     _boundingBox.setPosition(_position.x - _size/2, _position.y - _size/2);
     _position += _direction * _speed;
-    _rotation += 1;
+    _rotation += _rotation_speed;
+
+    if (deltaTime - _creationTime > 2) {
+        _health = 0;
+    }
 }
 
 void Missile::draw() {

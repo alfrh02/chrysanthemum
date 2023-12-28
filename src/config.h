@@ -12,4 +12,5 @@ const struct {
     ofColor GREEN = ofColor(0, 255, 0);
     ofColor BLUE = ofColor(0, 120, 255);
     ofColor ORANGE = ofColor(245, 179, 66);
+    ofColor MAGENTA = ofColor(255, 0, 255);
 } COLOURS;

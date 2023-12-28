@@ -2,6 +2,9 @@
 
 Player::Player(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed)
 : Entity(position, direction, rotation, size, health, speed) {
+    _identity = "Player";
+    _rotation_speed = 1.25;
+
     cout << "Spawned player" << endl;
 }
 
@@ -25,29 +28,16 @@ void Player::update(double deltaTime) {
     _position += _direction * round(_speed);
 
     if (round(_speed) != 0) {
-        _rotation += (_d - _a) * _ROTATION_SPEED;
+        _rotation += (_d - _a) * _rotation_speed;
         if (_rotation <= 0) {
             _rotation = 359;
         } else if (_rotation >= 360) {
             _rotation = 0;
         }
     }
-
-    // handle player going off-screen
-    if (_position.x > ofGetWidth() + _size) {
-        _position.x = 0 - _size;
-    } else if (_position.x < 0 - _size) {
-        _position.x = ofGetWidth() + _size;
-    }
-    if (_position.y > ofGetHeight() + _size) {
-        _position.y = 0 - _size;
-    } else if (_position.y < 0 - _size) {
-        _position.y = ofGetHeight() + _size;
-    }
 }
 
 void Player::draw() {
-    // drawing the actual player "sprite"
     ofPushView();
         ofTranslate(_position);
         ofRotateDeg(_rotation);

@@ -14,6 +14,8 @@ Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsign
     _damage = damage;
 
     _boundingBox = ofRectangle(_position - _size/2, _size, _size);
+
+    _identity = "Entity";
 }
 
 void Entity::update(double deltaTime) {
@@ -34,6 +36,8 @@ void Entity::drawBoundingBox() {
 
     ofPushView();
         ofDrawBitmapStringHighlight(to_string(_health), _position, COLOURS.RED, COLOURS.FOREGROUND);
+        ofDrawBitmapStringHighlight(_identity, _position + vec2(0, 16), COLOURS.RED, COLOURS.FOREGROUND);
+        ofDrawBitmapStringHighlight(to_string(_position.x) + ", " + to_string(_position.y), _position + vec2(0, 32), COLOURS.RED, COLOURS.FOREGROUND);
     ofPopView();
 }
 
@@ -43,7 +47,7 @@ void Entity::takeDamage(int damage) {
 
 void Entity::physicsCollision(vec2 colliderPosition, float colliderSpeed) {
     _speed = colliderSpeed / 2;
-    _direction = _position - colliderPosition;
+    _direction = normalize(_position - colliderPosition);
 }
 
 void Entity::setPosition(vec2 position) {

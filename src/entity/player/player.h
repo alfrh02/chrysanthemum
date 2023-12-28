@@ -22,11 +22,6 @@ class Player : public Entity {
         bool _s = false;
         bool _d = false;
 
-        float _speed = 0;
         const float _MAX_SPEED = 3;
         const float _SPEED_RETURN_RATE = 0.05;
-
-        const float _ROTATION_SPEED = 1.25;
-
-        const string _identifier = "Player";
 };

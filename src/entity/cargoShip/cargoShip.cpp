@@ -2,6 +2,7 @@
 
 CargoShip::CargoShip(vec2 position, vec2 direction, float rotation, float size, unsigned short health)
 : Entity(position, direction, rotation, size, health) {
+    _identity = "CargoShip";
 }
 
 void CargoShip::update(double deltaTime) {

@@ -7,6 +7,7 @@
 #include "config.h"
 
 #include "player.h"
+#include "cargoShip.h"
 #include "entityManager.h"
 
 using namespace glm;
@@ -35,6 +36,7 @@ class ofApp : public ofBaseApp{
 		bool debugMode = false;
 
 		Player player;
+		CargoShip cargoShip;
 
 		EntityManager entities;
 		// vector<Entity*> entities;

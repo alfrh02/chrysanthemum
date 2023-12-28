@@ -2,11 +2,13 @@
 
 Asteroid::Asteroid(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed, float seed, float xAmp, float yAmp)
 : Entity(position, direction, rotation, size, health, speed) {
+    _identity = "Asteroid";
+
     _seed = seed;
     _xAmp = xAmp;
     _yAmp = yAmp;
 
-    _speed = 0.01;
+    _speed = ofRandom(1) * 0.05;
     _rotation_speed = (ofRandom(2) + 0.2) * 0.1; // set rotation speed to something random + slow
 
     if (ofRandom(1) > 0.5) { // rotation speed has a 50% chance of inverting
@@ -21,8 +23,6 @@ void Asteroid::update(double deltaTime) {
     _boundingBox.setPosition(_position.x - _size/2, _position.y - _size/2);
     _rotation += _rotation_speed;
     _position += _direction * _speed;
-
-    // _speed *= 0.99;
 }
 
 void Asteroid::draw() {

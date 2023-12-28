@@ -12,6 +12,4 @@ class CargoShip : public Entity {
     private:
         float s = _size; // used in draw(), modified by deltaTime in update()
         bool _hazardLights = true;
-
-        const string _identifier = "CargoShip";
 };

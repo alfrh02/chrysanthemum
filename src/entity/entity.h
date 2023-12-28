@@ -32,7 +32,7 @@ class Entity {
         unsigned short getHealth();
         unsigned short getDamage();
         ofRectangle getBoundingBox();
-        string Entity::getIdentity();
+        string getIdentity();
 
     protected:
         vec2 _position;
@@ -40,12 +40,15 @@ class Entity {
         float _rotation;
 
         float _size;
+
         float _speed;
+        float _rotation_speed;
+
         unsigned short _health;
         unsigned short _maxHealth;
         unsigned short _damage;
 
         ofRectangle _boundingBox;
 
-        const string _identifier = "Entity";
+        string _identity;
 };

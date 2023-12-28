@@ -9,11 +9,8 @@ class Asteroid : public Entity {
         void update(double deltaTime) override;
         void draw() override;
 
-    private:
+    protected:
         float _seed;
         float _xAmp;
         float _yAmp;
-        float _rotation_speed;
-
-        const string _identifier = "Asteroid";
 };

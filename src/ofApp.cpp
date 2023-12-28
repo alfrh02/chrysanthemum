@@ -2,12 +2,12 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    player.setPosition(vec2(ofGetWidth() / 2, ofGetHeight() / 2));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     entities.update(player.getPosition(), deltaTime);
+    cargoShip.update(deltaTime);
     player.update(deltaTime);
 
     deltaTime += ofGetLastFrameTime();
@@ -17,13 +17,8 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(COLOURS.BACKGROUND);
 
-    player.draw();
-    entities.draw();
-
+    // draw static GUI
     if (debugMode) {
-        entities.drawBoundingBox(player.getPosition());
-        player.drawBoundingBox();
-
         ofSetColor(COLOURS.GREEN);
 
         // top left
@@ -46,6 +41,19 @@ void ofApp::draw(){
             ofColor(COLOURS.BACKGROUND)
         );
     }
+
+    // draw dynamic GUI + scene
+    ofTranslate(ofGetWidth() / 2 - player.getPosition().x, ofGetHeight() / 2 - player.getPosition().y);
+
+    if (debugMode) {
+        entities.drawBoundingBox(player.getPosition());
+        cargoShip.drawBoundingBox();
+        player.drawBoundingBox();
+    }
+
+    entities.draw(player.getPosition());
+    cargoShip.draw();
+    player.draw();
 }
 
 //--------------------------------------------------------------
@@ -54,7 +62,7 @@ void ofApp::keyPressed(int key){
 
     switch(key) {
         case 32: // space
-            entities.addMissile(player.getPosition(), player.getDirection(), player.getRotation());
+            entities.addMissile(player.getPosition(), player.getDirection(), player.getRotation(), deltaTime);
             break;
         case 96: // ` tilde
             debugMode = !debugMode;
@@ -79,7 +87,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    entities.addAsteroid(vec2(x, y));
+    entities.addAsteroid((vec2(x, y) + player.getPosition()) - vec2(ofGetWidth() / 2, ofGetHeight() / 2));
 }
 
 //--------------------------------------------------------------
