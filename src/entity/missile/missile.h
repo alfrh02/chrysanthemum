@@ -12,4 +12,6 @@ class Missile : public Entity {
         bool isDeadYet();
     private:
         float _speed = 4;
+
+        const string _identifier = "Missile";
 };

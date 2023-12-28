@@ -23,7 +23,7 @@ EntityManager::~EntityManager() {
     }
 }
 
-void EntityManager::update(double deltaTime) {
+void EntityManager::update(vec2 playerPosition,double deltaTime) {
     for (int i = 0; i < entities.size(); i++) {
         entities[i]->update(deltaTime);
         // collision detection !
@@ -35,31 +35,19 @@ void EntityManager::update(double deltaTime) {
                 string e1 = typeid(*entities[i]).name();
                 string e2 = typeid(*entities[y]).name();
 
-                cout << e1 << ", " << e2 << endl;
                 if (e1 == "8Asteroid" && e2 == "8Asteroid") {
-                    if (entities[i]->getSpeed() < 0.1) {
-                        entities[i]->setSpeed(0.25);
-                    }
-                    entities[i]->setSpeed(entities[i]->getSpeed() / 2);
-                    vec2 dir = entities[i]->getPosition() - entities[y]->getPosition();
-                    entities[i]->setDirection(dir);
-
-                    entities[y]->setSpeed(entities[i]->getSpeed() / 2);
-                    dir = entities[y]->getPosition() - entities[i]->getPosition();
-                    entities[y]->setDirection(dir);
+                    // if (entities[i]->getSpeed() < 0.1) {
+                    //     entities[i]->setSpeed(0.25);
+                    // }
+                    entities[i]->physicsCollision(entities[y]->getPosition(), entities[i]->getSpeed());
+                    entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed());
                 } else if (e1 == "7Missile") {
-                    entities[y]->setSpeed(0.1);
-                    vec2 dir = entities[y]->getPosition() - entities[i]->getPosition();
-                    entities[y]->setDirection(dir);
-
+                    entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed());
                     entities[y]->takeDamage(entities[i]->getDamage());
 
                     entities[i]->setHealth(0);
                 } else if (e2 == "7Missile") {
-                    entities[i]->setSpeed(0.05);
-                    vec2 dir = entities[i]->getPosition() - entities[y]->getPosition();
-                    entities[i]->setDirection(dir);
-
+                    entities[i]->physicsCollision(entities[y]->getPosition(), entities[y]->getSpeed());
                     entities[i]->takeDamage(entities[y]->getDamage());
 
                     entities[y]->setHealth(0);
@@ -67,19 +55,12 @@ void EntityManager::update(double deltaTime) {
             }
         }
 
-        if (entities[i]->getHealth() == 0) {
-            // cout << entities[i] << endl;
+        if (entities[i]->getHealth() == 0 || distance(entities[i]->getPosition(), playerPosition) > _DELETION_DISTANCE) {
             delete entities[i];
-            i -= 1;
-            // entities.erase(entities.begin() + i);
+            entities.erase(entities.begin() + i);
+            i--;
         }
     }
-
-    // for (Entity* e : entities) {
-    //     if (e->getHealth() == 0) {
-    //         delete e;
-    //     }
-    // }
 }
 
 void EntityManager::draw() {
@@ -88,9 +69,14 @@ void EntityManager::draw() {
     }
 }
 
-void EntityManager::drawBoundingBox() {
+void EntityManager::drawBoundingBox(vec2 playerPosition) {
     for (Entity* e : entities) {
         e->drawBoundingBox();
+
+        ofSetColor(COLOURS.ORANGE);
+        ofDrawLine(playerPosition, e->getPosition());
+
+        ofDrawCircle(playerPosition, _DELETION_DISTANCE);
     }
 }
 

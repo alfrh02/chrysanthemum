@@ -7,7 +7,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    entities.update(deltaTime);
+    entities.update(player.getPosition(), deltaTime);
     player.update(deltaTime);
 
     deltaTime += ofGetLastFrameTime();
@@ -17,11 +17,11 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(COLOURS.BACKGROUND);
 
-    entities.draw();
     player.draw();
+    entities.draw();
 
     if (debugMode) {
-        entities.drawBoundingBox();
+        entities.drawBoundingBox(player.getPosition());
         player.drawBoundingBox();
 
         ofSetColor(COLOURS.GREEN);

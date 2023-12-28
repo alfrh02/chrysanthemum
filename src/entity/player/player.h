@@ -27,4 +27,6 @@ class Player : public Entity {
         const float _SPEED_RETURN_RATE = 0.05;
 
         const float _ROTATION_SPEED = 1.25;
+
+        const string _identifier = "Player";
 };

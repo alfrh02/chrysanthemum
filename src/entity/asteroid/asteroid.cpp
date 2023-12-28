@@ -6,7 +6,15 @@ Asteroid::Asteroid(vec2 position, vec2 direction, float rotation, float size, un
     _xAmp = xAmp;
     _yAmp = yAmp;
 
-    _rotation_speed = (ofRandom(2) + 0.2) * 0.1;
+    _speed = 0.01;
+    _rotation_speed = (ofRandom(2) + 0.2) * 0.1; // set rotation speed to something random + slow
+
+    if (ofRandom(1) > 0.5) { // rotation speed has a 50% chance of inverting
+        _rotation_speed = -_rotation_speed;
+    }
+
+    // make their bounding box 10% smaller to account for their irregular shape
+    _boundingBox = ofRectangle(_position - _size/2, _size - (_size/10), _size - (_size/10));
 }
 
 void Asteroid::update(double deltaTime) {
@@ -14,7 +22,7 @@ void Asteroid::update(double deltaTime) {
     _rotation += _rotation_speed;
     _position += _direction * _speed;
 
-    _speed *= 0.99;
+    // _speed *= 0.99;
 }
 
 void Asteroid::draw() {

@@ -14,8 +14,6 @@ Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsign
     _damage = damage;
 
     _boundingBox = ofRectangle(_position - _size/2, _size, _size);
-
-    cout << "constructor" << endl;
 }
 
 void Entity::update(double deltaTime) {
@@ -41,6 +39,11 @@ void Entity::drawBoundingBox() {
 
 void Entity::takeDamage(int damage) {
     _health -= damage;
+}
+
+void Entity::physicsCollision(vec2 colliderPosition, float colliderSpeed) {
+    _speed = colliderSpeed / 2;
+    _direction = _position - colliderPosition;
 }
 
 void Entity::setPosition(vec2 position) {
@@ -89,4 +92,8 @@ unsigned short Entity::getDamage() {
 
 ofRectangle Entity::getBoundingBox() {
     return _boundingBox;
+}
+
+string Entity::getIdentity() {
+    return _identity;
 }
