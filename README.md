@@ -1,6 +1,6 @@
 A small game where you collect minerals from an asteroid belt. Make sure to avoid the automated security system.
 
-![[screenshot.png]]
+![screenshot.png](screenshot.png)
 
 This was not inspired by the hit arcade game "Asteroids", all resemblance is purely coincidental (seriously).
 
