@@ -12,27 +12,31 @@ EntityManager::~EntityManager() {
 
 void EntityManager::update(vec2 playerPosition, double deltaTime) {
     for (int i = 0; i < entities.size(); i++) {
-        entities[i]->update(deltaTime);
+        Entity* e = entities[i];
+        e->update(deltaTime);
 
         // collision detection
-        // iterate thru the rest of the items in the vector (especially so we aren't comparing entities[i] to itself)
+        // iterate thru the rest of the items in the vector (especially so we aren't comparing e to itself)
         for (int y = i + 1; y < entities.size(); y++) {
+            Entity* e1 = entities[y];
             // using ofRectangle.instersects() that openFrameworks has kindly gifted us for AABB collision detection
-            if (entities[i]->getBoundingBox().intersects(entities[y]->getBoundingBox())) {
-                entities[i]->physicsCollision(entities[y]->getPosition(), entities[y]->getSpeed(), entities[y]->getDamage());
-                entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed(), entities[i]->getDamage());
+            if (e->getBoundingBox().intersects(e1->getBoundingBox())) {
+                e->physicsCollision(e1->getPosition(), e1->getSpeed(), e1->getDamage());
+                e1->physicsCollision(e->getPosition(), e->getSpeed(), e->getDamage());
             }
         }
 
-        if (distance(entities[i]->getPosition(), playerPosition) > SETTINGS.SIMULATION_DISTANCE) {
-            if (entities[i]->getIdentity() == "Asteroid") {
+        // set entities who are outside of the simulation distance to dead
+        if (distance(e->getPosition(), playerPosition) > SETTINGS.SIMULATION_DISTANCE) {
+            if (e->getIdentity() == "Asteroid" || e->getIdentity() == "CrystalAsteroid" || e->getIdentity() == "RichCrystalAsteroid") {
                 _asteroidAmount--;
             }
-            entities[i]->setHealth(0);
+            e->setHealth(0);
         }
 
-        if (entities[i]->getHealth() <= 0) {
-            delete entities[i];
+        // delete dead entities
+        if (e->getHealth() <= 0) {
+            delete e;
             entities.erase(entities.begin() + i);
             i--;
         }
