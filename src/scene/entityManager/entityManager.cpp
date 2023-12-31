@@ -21,20 +21,22 @@ void EntityManager::update(vec2 playerPosition,double deltaTime) {
                 string e1 = entities[i]->getIdentity();
                 string e2 = entities[y]->getIdentity();
 
-                if (e1 == "Missile") {
-                    entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed());
-                    entities[y]->takeDamage(entities[i]->getDamage());
+                // if (e1 == "Missile") {
+                //     entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed());
+                //     entities[y]->takeDamage(entities[i]->getDamage());
 
-                    entities[i]->setHealth(0);
-                } else if (e2 == "Missile") {
-                    entities[i]->physicsCollision(entities[y]->getPosition(), entities[y]->getSpeed());
-                    entities[i]->takeDamage(entities[y]->getDamage());
+                //     entities[i]->setHealth(0);
+                // } else if (e2 == "Missile") {
+                //     entities[i]->physicsCollision(entities[y]->getPosition(), entities[y]->getSpeed());
+                //     entities[i]->takeDamage(entities[y]->getDamage());
 
-                    entities[y]->setHealth(0);
-                } else {
-                    entities[i]->physicsCollision(entities[y]->getPosition(), entities[i]->getSpeed());
-                    entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed());
-                }
+                //     entities[y]->setHealth(0);
+                // } else {
+                //     entities[i]->physicsCollision(entities[y]->getPosition(), entities[i]->getSpeed());
+                //     entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed());
+                // }
+                entities[i]->physicsCollision(entities[y]->getPosition(), entities[y]->getSpeed(), entities[y]->getDamage());
+                entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed(), entities[i]->getDamage());
             }
         }
 
@@ -45,7 +47,7 @@ void EntityManager::update(vec2 playerPosition,double deltaTime) {
             entities[i]->setHealth(0);
         }
 
-        if (entities[i]->getHealth() == 0) {
+        if (entities[i]->getHealth() <= 0) {
             delete entities[i];
             entities.erase(entities.begin() + i);
             i--;

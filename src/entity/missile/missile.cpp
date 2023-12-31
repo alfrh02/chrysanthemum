@@ -30,8 +30,3 @@ void Missile::draw() {
         ofDrawRectangle(0, 0, _size, _size);
     ofPopView();
 }
-
-bool Missile::isDeadYet() {
-    // return _lifetime > _lifespan;
-    return false;
-}

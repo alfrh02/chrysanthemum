@@ -2,6 +2,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    settings.renderDistance = ofGetWidth();
+    settings.simulationDistance = ofGetWidth() * 8;
 }
 
 //--------------------------------------------------------------
@@ -24,13 +26,18 @@ void ofApp::draw(){
         // top left
         // framerate + deltatime
         ofDrawBitmapString(
-            to_string(ofGetFrameRate()),
+            "            fps | " + to_string(ofGetFrameRate()),
             vec2(8, 16)
         );
 
         ofDrawBitmapString(
-            to_string(deltaTime),
+            "   time elapsed | " + to_string(deltaTime),
             vec2(8, 32)
+        );
+
+        ofDrawBitmapString(
+            "player position | x " + to_string(player.getPosition().x) + " y " + to_string(player.getPosition().y),
+            vec2(8, 48)
         );
 
         // mouse coordinates
@@ -44,6 +51,24 @@ void ofApp::draw(){
 
     // draw dynamic GUI + scene
     ofTranslate(ofGetWidth() / 2 - player.getPosition().x, ofGetHeight() / 2 - player.getPosition().y);
+
+    // DRAW BACKGROUND
+
+    // sun
+    ofSetColor(COLOURS.ORANGE);
+    ofDrawCircle((player.getPosition() / 1.015) + vec2(200, -200), 50);
+
+    // planet
+    ofSetColor(COLOURS.BACKGROUND);
+    ofFill();
+
+    ofDrawCircle((player.getPosition() / 1.025) + vec2(-200, 1200), 1500);
+
+    // outline
+    ofSetColor(COLOURS.GRAY);
+    ofNoFill();
+
+    ofDrawCircle((player.getPosition() / 1.025) + vec2(-200, 1200), 1500);
 
     if (debugMode) {
         entities.drawBoundingBox(player.getPosition());

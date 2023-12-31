@@ -13,9 +13,8 @@ class Entity {
         virtual void draw();
 
         void drawBoundingBox();
-        void takeDamage(int damage);
 
-        void physicsCollision(vec2 colliderPosition, float colliderSpeed);
+        void physicsCollision(vec2 colliderPosition, float colliderSpeed, unsigned short damage);
 
         // setters
         void setPosition(vec2 position);
@@ -29,7 +28,7 @@ class Entity {
         vec2 getDirection();
         float getRotation();
         float getSpeed();
-        unsigned short getHealth();
+        short getHealth();
         unsigned short getDamage();
         ofRectangle getBoundingBox();
         string getIdentity();
@@ -44,8 +43,8 @@ class Entity {
         float _speed;
         float _rotation_speed;
 
-        unsigned short _health;
-        unsigned short _maxHealth;
+        short _health;
+        short _maxHealth;
         unsigned short _damage;
 
         ofRectangle _boundingBox;

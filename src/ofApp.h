@@ -1,7 +1,5 @@
 #pragma once
 
-#include <typeinfo>
-
 #include "ofMain.h"
 
 #include "config.h"

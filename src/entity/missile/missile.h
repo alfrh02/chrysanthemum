@@ -9,7 +9,6 @@ class Missile : public Entity {
         void update(double deltaTime) override;
         void draw() override;
 
-        bool isDeadYet();
     private:
         double _creationTime;
 };
