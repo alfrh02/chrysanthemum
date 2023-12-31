@@ -85,10 +85,11 @@ void EntityManager::drawBoundingBox(vec2 playerPosition) {
 }
 
 void EntityManager::addAsteroid(vec2 pos) {
+    Asteroid* a;
     if (ofRandom(1) > 0.5) {
-        CrystalAsteroid* a = new CrystalAsteroid(pos)
+        a = new CrystalAsteroid(pos);
     } else {
-        Asteroid* a = new Asteroid(pos);
+        a = new Asteroid(pos);
     }
     entities.push_back(a);
     _asteroidAmount++;
