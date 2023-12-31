@@ -2,11 +2,11 @@
 
 Projectile::Projectile(vec2 position, vec2 direction, float rotation, double deltaTime)
 : Entity(position, direction, rotation, 8.0, 1) {
-    _speed = 4.0;
-    _rotation_speed = 1.0;
     _creationTime = deltaTime;
+    _color = COLORS.FOREGROUND;
 
     _identity = "Projectile";
+    _type = "Projectile";
 }
 
 void Projectile::update(double deltaTime) {
@@ -31,7 +31,7 @@ void Projectile::draw() {
         ofTranslate(vec2(-_size/2, -_size/2) * _lifetime);
 
         ofNoFill();
-        ofSetColor(COLORS.FOREGROUND);
+        ofSetColor(_color);
         ofDrawRectangle(0, 0, _size * _lifetime, _size * _lifetime);
     ofPopView();
 }

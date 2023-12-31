@@ -3,6 +3,7 @@
 Asteroid::Asteroid(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed, float seed, float xAmp, float yAmp)
 : Entity(position, direction, rotation, size, health, speed) {
     _identity = "Asteroid";
+    _type = "Asteroid";
 
     _seed = seed;
     _xAmp = xAmp;
@@ -29,6 +30,7 @@ void Asteroid::update(double deltaTime) {
 
 void Asteroid::draw() {
     ofSetColor(_color);
+    ofNoFill();
 
     ofPushView();
         ofTranslate(_position);

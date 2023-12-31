@@ -33,6 +33,7 @@ class Entity {
         unsigned short getDamage();
         ofRectangle getBoundingBox();
         string getIdentity();
+        string getType();
 
     protected:
         vec2 _position;
@@ -45,10 +46,10 @@ class Entity {
         float _rotation_speed;
 
         short _health;
-        short _maxHealth;
         unsigned short _damage;
 
         ofRectangle _boundingBox;
 
         string _identity;
+        string _type;
 };

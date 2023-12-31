@@ -16,9 +16,14 @@ void EntityManager::update(vec2 playerPosition, double deltaTime) {
         e->update(deltaTime);
 
         // collision detection
-        // iterate thru the rest of the items in the vector (especially so we aren't comparing e to itself)
+        // iterate through the rest of the items in the vector (especially so we aren't comparing e to itself)
         for (int y = i + 1; y < entities.size(); y++) {
             Entity* e1 = entities[y];
+
+            if (e->getIdentity() == "Crystal" || e1->getIdentity() == "Crystal") {
+                continue;
+            }
+
             // using ofRectangle.instersects() that openFrameworks has kindly gifted us for AABB collision detection
             if (e->getBoundingBox().intersects(e1->getBoundingBox())) {
                 e->physicsCollision(e1->getPosition(), e1->getSpeed(), e1->getDamage());
@@ -28,7 +33,7 @@ void EntityManager::update(vec2 playerPosition, double deltaTime) {
 
         // set entities who are outside of the simulation distance to dead
         if (distance(e->getPosition(), playerPosition) > SETTINGS.SIMULATION_DISTANCE) {
-            if (e->getIdentity() == "Asteroid" || e->getIdentity() == "CrystalAsteroid" || e->getIdentity() == "RichCrystalAsteroid") {
+            if (e->getType() == "Asteroid") {
                 _asteroidAmount--;
             }
             e->setHealth(0);
@@ -36,6 +41,7 @@ void EntityManager::update(vec2 playerPosition, double deltaTime) {
 
         // delete dead entities
         if (e->getHealth() <= 0) {
+            onDeath(i, deltaTime);
             delete e;
             entities.erase(entities.begin() + i);
             i--;
@@ -74,6 +80,29 @@ void EntityManager::drawBoundingBox(vec2 playerPosition) {
     }
 }
 
+void EntityManager::onDeath(unsigned short index, double deltaTime) {
+    Entity* e = entities[index];
+    ofColor color = COLORS.CRYSTAL;
+
+    if (e->getType() == "Asteroid") {
+        unsigned char crystalAmount = 0;
+        if (e->getIdentity() == "RichCrystalAsteroid") {
+            color = COLORS.RICH_CRYSTAL;
+            crystalAmount = ofRandom(8) + 8; // drops 8-16
+        } else if (e->getIdentity() == "CrystalAsteroid") {
+            crystalAmount = ofRandom(7) + 1; // drops 1-8
+        } else {
+            if (ofRandom(1) < 0.25) { // 25% chance of dropping 1-2 crystals
+                crystalAmount = ofRandom(1) + 1;
+            }
+        }
+
+        for (int i = 0; i < crystalAmount; i++) {
+            addCrystal(e->getPosition(), vec2(cos(i/2), sin(i/2)), deltaTime, color);
+        }
+    }
+}
+
 void EntityManager::addAsteroid(vec2 pos) {
     Asteroid* a;
     if (ofRandom(1) < SETTINGS.CRYSTAL_ASTEROID_SPAWN_CHANCE) {
@@ -92,4 +121,9 @@ void EntityManager::addAsteroid(vec2 pos) {
 void EntityManager::addMissile(vec2 pos, vec2 dir, float rot, double deltaTime) {
     Missile* m = new Missile(pos, dir, rot, deltaTime);
     entities.push_back(m);
+}
+
+void EntityManager::addCrystal(vec2 pos, vec2 dir, double deltaTime, ofColor color) {
+    Crystal* c = new Crystal(pos, dir, deltaTime, color);
+    entities.push_back(c);
 }

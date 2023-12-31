@@ -4,6 +4,7 @@ Ship::Ship(vec2 position, vec2 direction, float rotation, float size, unsigned s
 : Entity(position, direction, rotation, size, health, speed) {
     _color = COLORS.FOREGROUND;
     _identity = "Ship";
+    _type = "Ship";
 }
 
 void Ship::draw() {

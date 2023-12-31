@@ -6,16 +6,17 @@ Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsign
     _position = position;
     _direction = direction;
     _rotation = rotation;
+    _rotation_speed = 1.0;
 
     _size = size;
     _speed = speed;
     _health = health;
-    _maxHealth = health;
     _damage = _size / 5;
 
     _boundingBox = ofRectangle(_position - _size/2, _size, _size);
 
     _identity = "Entity";
+    _type = "Entity";
 }
 
 void Entity::update(double deltaTime) {
@@ -101,4 +102,8 @@ ofRectangle Entity::getBoundingBox() {
 
 string Entity::getIdentity() {
     return _identity;
+}
+
+string Entity::getType() {
+    return _type;
 }

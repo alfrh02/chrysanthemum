@@ -4,8 +4,7 @@
 
 class Crystal : public Projectile {
     public:
-        Crystal(vec2 position = vec2(0, 0), double deltaTime = 0.0);
+        Crystal(vec2 position = vec2(0, 0), vec2 direction = vec2(0, 0), double deltaTime = 0.0, ofColor color = COLORS.RICH_CRYSTAL);
 
-    protected:
-        ofColor _colour;
+        void draw() override;
 };
