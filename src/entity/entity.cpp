@@ -24,11 +24,11 @@ void Entity::update(double deltaTime) {
 }
 
 void Entity::draw() {
-    ofDrawBitmapStringHighlight("I should not be here", _position, COLOURS.RED, COLOURS.BACKGROUND);
+    ofDrawBitmapStringHighlight("I should not be here", _position, COLORS.RED, COLORS.BACKGROUND);
 }
 
 void Entity::drawBoundingBox() {
-    ofSetColor(COLOURS.RED);
+    ofSetColor(COLORS.RED);
     ofDrawRectangle(_boundingBox);
 
     // ofDrawBitmapStringHighlight(to_string(_health), _position + vec2(_size/2, 0), COLOURS.RED, COLOURS.FOREGROUND);
@@ -36,7 +36,7 @@ void Entity::drawBoundingBox() {
     // ofDrawBitmapStringHighlight(_identity, _position + vec2(0, 16), COLOURS.RED, COLOURS.FOREGROUND);
     // ofDrawBitmapStringHighlight(to_string(_position.x) + ", " + to_string(_position.y), _position + vec2(0, 32), COLOURS.RED, COLOURS.FOREGROUND);
 
-    ofSetColor(COLOURS.GREEN);
+    ofSetColor(COLORS.GREEN);
     ofDrawLine(_position, _position + (_direction * _size));
 }
 
@@ -76,6 +76,10 @@ vec2 Entity::getDirection() {
 
 float Entity::getRotation() {
     return _rotation;
+}
+
+float Entity::getSize() {
+    return _size;
 }
 
 float Entity::getSpeed() {

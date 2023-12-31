@@ -14,5 +14,5 @@ class Asteroid : public Entity {
         float _xAmp;
         float _yAmp;
 
-        ofColor _colour;
+        ofColor _color;
 };

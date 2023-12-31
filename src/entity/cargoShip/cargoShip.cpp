@@ -21,7 +21,7 @@ void CargoShip::update(double deltaTime) {
 
 void CargoShip::draw() {
     ofNoFill();
-    ofSetColor(COLOURS.BLUE);
+    ofSetColor(COLORS.BLUE);
 
     ofPushView();
         ofTranslate(_position);
@@ -59,7 +59,7 @@ void CargoShip::draw() {
         ofDrawLine(vec2((0 - s) / 2, (s*2 + s/2) / 2), vec2((0 - s) / 1.5, s*2));
 
         if (_hazardLights) {
-            ofSetColor(COLOURS.ORANGE);
+            ofSetColor(COLORS.ORANGE);
 
             ofDrawCircle(vec2(-s, s*2), s/10);
             ofDrawCircle(vec2(s, s*2), s/10);

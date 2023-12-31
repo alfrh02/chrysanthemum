@@ -15,11 +15,58 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofBackground(COLOURS.BACKGROUND);
+    ofBackground(COLORS.BACKGROUND);
+
+    // draw dynamic GUI + scene
+    ofPushView();
+        ofTranslate(ofGetWidth() / 2 - player.getPosition().x, ofGetHeight() / 2 - player.getPosition().y);
+
+        // DRAW BACKGROUND
+
+        // sun
+        ofSetColor(COLORS.ORANGE);
+        ofDrawCircle((player.getPosition() / 1.015) + vec2(200, -200), 50);
+
+        // planet
+        ofSetColor(COLORS.BACKGROUND);
+        ofFill();
+
+        ofDrawCircle((player.getPosition() / 1.025) + vec2(-200, 1200), 1500);
+
+        // outline
+        ofSetColor(COLORS.GRAY);
+        ofNoFill();
+
+        ofDrawCircle((player.getPosition() / 1.025) + vec2(-200, 1200), 1500);
+
+        if (debugMode) {
+            entities.drawBoundingBox(player.getPosition());
+            cargoShip.drawBoundingBox();
+            player.drawBoundingBox();
+        }
+
+        entities.draw(player.getPosition());
+        cargoShip.draw();
+        player.draw();
+    ofPopView();
 
     // draw static GUI
+
+    // cargoship pointer
+    if (distance(player.getPosition(), cargoShip.getPosition()) > ofGetHeight() / 2) {
+        ofSetColor(COLORS.BLUE);
+
+        vec2 dir = normalize(cargoShip.getPosition() - player.getPosition());
+        dir += 1;
+        dir /= 2;
+
+        vec2 pos = vec2(ofGetWidth() * dir.x + 1, ofGetHeight() * dir.y);
+
+        ofDrawCircle(pos, 10);
+    }
+
     if (debugMode) {
-        ofSetColor(COLOURS.GREEN);
+        ofSetColor(COLORS.GREEN);
 
         // top left
         // framerate + deltatime
@@ -42,41 +89,10 @@ void ofApp::draw(){
         ofDrawBitmapStringHighlight(
             to_string(ofGetMouseX()) + ", " + to_string(ofGetMouseY()),
             vec2(ofGetMouseX(), ofGetMouseY()),
-            ofColor(COLOURS.GREEN),
-            ofColor(COLOURS.BACKGROUND)
+            ofColor(COLORS.GREEN),
+            ofColor(COLORS.BACKGROUND)
         );
     }
-
-    // draw dynamic GUI + scene
-    ofTranslate(ofGetWidth() / 2 - player.getPosition().x, ofGetHeight() / 2 - player.getPosition().y);
-
-    // DRAW BACKGROUND
-
-    // sun
-    ofSetColor(COLOURS.ORANGE);
-    ofDrawCircle((player.getPosition() / 1.015) + vec2(200, -200), 50);
-
-    // planet
-    ofSetColor(COLOURS.BACKGROUND);
-    ofFill();
-
-    ofDrawCircle((player.getPosition() / 1.025) + vec2(-200, 1200), 1500);
-
-    // outline
-    ofSetColor(COLOURS.GRAY);
-    ofNoFill();
-
-    ofDrawCircle((player.getPosition() / 1.025) + vec2(-200, 1200), 1500);
-
-    if (debugMode) {
-        entities.drawBoundingBox(player.getPosition());
-        cargoShip.drawBoundingBox();
-        player.drawBoundingBox();
-    }
-
-    entities.draw(player.getPosition());
-    cargoShip.draw();
-    player.draw();
 }
 
 //--------------------------------------------------------------

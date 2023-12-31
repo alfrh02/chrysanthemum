@@ -23,3 +23,15 @@ void Projectile::update(double deltaTime) {
         _health = 0;
     }
 }
+
+void Projectile::draw() {
+    ofPushView();
+        ofTranslate(_position);
+        ofRotateDeg(_rotation);
+        ofTranslate(vec2(-_size/2, -_size/2) * _lifetime);
+
+        ofNoFill();
+        ofSetColor(COLORS.FOREGROUND);
+        ofDrawRectangle(0, 0, _size * _lifetime, _size * _lifetime);
+    ofPopView();
+}

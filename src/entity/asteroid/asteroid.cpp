@@ -18,7 +18,7 @@ Asteroid::Asteroid(vec2 position, vec2 direction, float rotation, float size, un
     // make their bounding box 10% smaller to account for their irregular shape
     _boundingBox = ofRectangle(_position - _size/2, _size - (_size/10), _size - (_size/10));
 
-    _colour = COLOURS.FOREGROUND;
+    _color = COLORS.FOREGROUND;
 }
 
 void Asteroid::update(double deltaTime) {
@@ -28,7 +28,7 @@ void Asteroid::update(double deltaTime) {
 }
 
 void Asteroid::draw() {
-    ofSetColor(_colour);
+    ofSetColor(_color);
 
     ofPushView();
         ofTranslate(_position);

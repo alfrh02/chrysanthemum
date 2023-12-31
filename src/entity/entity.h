@@ -27,6 +27,7 @@ class Entity {
         vec2 getPosition();
         vec2 getDirection();
         float getRotation();
+        float getSize();
         float getSpeed();
         short getHealth();
         unsigned short getDamage();

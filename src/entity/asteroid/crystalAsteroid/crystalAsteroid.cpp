@@ -4,5 +4,5 @@ CrystalAsteroid::CrystalAsteroid(vec2 position)
 : Asteroid(position) {
     _identity = "CrystalAsteroid";
 
-    _colour = COLOURS.CRYSTAL;
+    _color = COLORS.CRYSTAL;
 }
