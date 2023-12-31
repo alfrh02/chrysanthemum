@@ -7,6 +7,9 @@
 #include "crystal.h"
 
 #include "cargoShip.h"
+
+#include "player.h"
+
 #include "missile.h"
 
 class EntityManager {
@@ -14,14 +17,17 @@ class EntityManager {
         EntityManager();
         ~EntityManager();
 
-        void update(vec2 playerPosition, double deltaTime);
-        void draw(vec2 playerPosition);
-        void drawBoundingBox(vec2 playerPosition);
+        void update(double deltaTime);
+        void draw();
+        void drawBoundingBox();
         void onDeath(unsigned short index, double deltaTime);
 
         void addAsteroid(vec2 pos);
         void addMissile(vec2 pos, vec2 dir, float rot, double deltaTime);
         void addCrystal(vec2 pos, vec2 dir, double deltaTime, ofColor color);
+
+        Player player;
+		CargoShip cargoship;
 
     private:
         vector<Entity*> entities;

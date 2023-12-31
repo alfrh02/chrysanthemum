@@ -6,9 +6,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    entities.update(player.getPosition(), deltaTime);
-    cargoShip.update(deltaTime);
-    player.update(deltaTime);
+    entities.update(deltaTime);
 
     deltaTime += ofGetLastFrameTime();
 }
@@ -17,46 +15,45 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(COLORS.BACKGROUND);
 
+    vec2 playerPosition = entities.player.getPosition();
+    vec2 cargoshipPosition = entities.cargoship.getPosition();
+
     // draw dynamic GUI + scene
     ofPushView();
-        ofTranslate(ofGetWidth() / 2 - player.getPosition().x, ofGetHeight() / 2 - player.getPosition().y);
+        ofTranslate(ofGetWidth() / 2 - playerPosition.x, ofGetHeight() / 2 - playerPosition.y);
 
         // DRAW BACKGROUND
 
         // sun
         ofSetColor(COLORS.ORANGE);
-        ofDrawCircle((player.getPosition() / 1.015) + vec2(200, -200), 50);
+        ofDrawCircle((playerPosition / 1.015) + vec2(200, -200), 50);
 
         // planet
         ofSetColor(COLORS.BACKGROUND);
         ofFill();
 
-        ofDrawCircle((player.getPosition() / 1.025) + vec2(-200, 1200), 1500);
+        ofDrawCircle((playerPosition / 1.025) + vec2(-200, 1200), 1500);
 
         // outline
         ofSetColor(COLORS.GRAY);
         ofNoFill();
 
-        ofDrawCircle((player.getPosition() / 1.025) + vec2(-200, 1200), 1500);
+        ofDrawCircle((playerPosition / 1.025) + vec2(-200, 1200), 1500);
 
         if (debugMode) {
-            entities.drawBoundingBox(player.getPosition());
-            cargoShip.drawBoundingBox();
-            player.drawBoundingBox();
+            entities.drawBoundingBox();
         }
 
-        entities.draw(player.getPosition());
-        cargoShip.draw();
-        player.draw();
+        entities.draw();
     ofPopView();
 
     // draw static GUI
 
     // cargoship pointer
-    if (distance(player.getPosition(), cargoShip.getPosition()) > ofGetHeight() / 2) {
+    if (distance(playerPosition, cargoshipPosition) > ofGetHeight() / 2) {
         ofSetColor(COLORS.BLUE);
 
-        vec2 dir = normalize(cargoShip.getPosition() - player.getPosition());
+        vec2 dir = normalize(cargoshipPosition - playerPosition);
         dir += 1;
         dir /= 2;
 
@@ -72,7 +69,7 @@ void ofApp::draw(){
         // framerate + deltatime
         ofDrawBitmapString(
             "            fps | " + to_string(ofGetFrameRate()),
-            vec2(8, 16)
+            vec2(8, 16Sh)
         );
 
         ofDrawBitmapString(
@@ -81,7 +78,7 @@ void ofApp::draw(){
         );
 
         ofDrawBitmapString(
-            "player position | x " + to_string(player.getPosition().x) + " y " + to_string(player.getPosition().y),
+            "player position | x " + to_string(playerPosition.x) + " y " + to_string(playerPosition.y),
             vec2(8, 48)
         );
 
@@ -97,11 +94,11 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    player.keyPressed(key);
+    entities.player.keyPressed(key);
 
     switch(key) {
         case 32: // space
-            entities.addMissile(player.getPosition(), player.getDirection(), player.getRotation(), deltaTime);
+            entities.addMissile(entities.player.getPosition(), entities.player.getDirection(), entities.player.getRotation(), deltaTime);
             break;
         case 96: // ` tilde
             debugMode = !debugMode;
@@ -111,7 +108,7 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-    player.keyReleased(key);
+    entities.player.keyReleased(key);
 }
 
 //--------------------------------------------------------------
@@ -126,7 +123,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    entities.addAsteroid((vec2(x, y) + player.getPosition()) - vec2(ofGetWidth() / 2, ofGetHeight() / 2));
+    // entities.addAsteroid((vec2(x, y) + playerPosition) - vec2(ofGetWidth() / 2, ofGetHeight() / 2));
 }
 
 //--------------------------------------------------------------

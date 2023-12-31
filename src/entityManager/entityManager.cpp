@@ -10,7 +10,12 @@ EntityManager::~EntityManager() {
     }
 }
 
-void EntityManager::update(vec2 playerPosition, double deltaTime) {
+void EntityManager::update(double deltaTime) {
+    player.update(deltaTime);
+    cargoship.update(deltaTime);
+
+    vec2 playerPosition = player.getPosition();
+
     for (int i = 0; i < entities.size(); i++) {
         Entity* e = entities[i];
         e->update(deltaTime);
@@ -71,17 +76,23 @@ void EntityManager::update(vec2 playerPosition, double deltaTime) {
     }
 }
 
-void EntityManager::draw(vec2 playerPosition) {
+void EntityManager::draw() {
+    player.draw();
+    cargoship.draw();
+
     for (Entity* e : entities) {
-        if (distance(e->getPosition(), playerPosition) < SETTINGS.RENDER_DISTANCE) {
+        if (distance(e->getPosition(), player.getPosition()) < SETTINGS.RENDER_DISTANCE) {
             e->draw();
         }
     }
 }
 
-void EntityManager::drawBoundingBox(vec2 playerPosition) {
+void EntityManager::drawBoundingBox() {
+    player.drawBoundingBox();
+    cargoship.drawBoundingBox();
+
     for (Entity* e : entities) {
-        if (distance(e->getPosition(), playerPosition) < SETTINGS.RENDER_DISTANCE) {
+        if (distance(e->getPosition(), player.getPosition()) < SETTINGS.RENDER_DISTANCE) {
             e->drawBoundingBox();
         }
     }

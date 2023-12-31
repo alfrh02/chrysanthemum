@@ -31,8 +31,5 @@ class ofApp : public ofBaseApp{
 
 		bool debugMode = false;
 
-		Player player;
-		CargoShip cargoShip;
-
 		EntityManager entities;
 };
