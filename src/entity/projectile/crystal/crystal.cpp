@@ -4,7 +4,7 @@ Crystal::Crystal(vec2 position, vec2 direction, double deltaTime, ofColor color)
 : Projectile(position, direction, 0.0, deltaTime) {
     _speed = 0.25;
     _identity = "Crystal";
-    _lifespan = 8;
+    _lifespan = 4;
 
     _color = color;
 }

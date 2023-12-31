@@ -21,6 +21,13 @@ void EntityManager::update(vec2 playerPosition, double deltaTime) {
             Entity* e1 = entities[y];
 
             if (e->getIdentity() == "Crystal" || e1->getIdentity() == "Crystal") {
+                if (e->getIdentity() == "Player") {
+                    cout << "points " << endl;
+                    e1->setHealth(0);
+                } else if (e1->getIdentity() == "Player") {
+                    cout << "points " << endl;
+                    e->setHealth(0);
+                }
                 continue;
             }
 
