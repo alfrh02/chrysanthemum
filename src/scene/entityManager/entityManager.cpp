@@ -10,10 +10,11 @@ EntityManager::~EntityManager() {
     }
 }
 
-void EntityManager::update(vec2 playerPosition,double deltaTime) {
+void EntityManager::update(vec2 playerPosition, double deltaTime) {
     for (int i = 0; i < entities.size(); i++) {
         entities[i]->update(deltaTime);
-        // collision detection !
+
+        // collision detection
         // iterate thru the rest of the items in the vector (especially so we aren't comparing entities[i] to itself)
         for (int y = i + 1; y < entities.size(); y++) {
             // using ofRectangle.instersects() that openFrameworks has kindly gifted us for AABB collision detection

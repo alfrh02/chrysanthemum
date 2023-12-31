@@ -2,8 +2,6 @@
 
 #include "ofMain.h"
 
-#include "config.h"
-
 #include "player.h"
 #include "cargoShip.h"
 #include "entityManager.h"
@@ -37,5 +35,4 @@ class ofApp : public ofBaseApp{
 		CargoShip cargoShip;
 
 		EntityManager entities;
-		// vector<Entity*> entities;
 };

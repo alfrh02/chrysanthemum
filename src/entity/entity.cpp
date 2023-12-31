@@ -2,7 +2,7 @@
 
 using namespace glm;
 
-Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed, unsigned short damage) {
+Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed) {
     _position = position;
     _direction = direction;
     _rotation = rotation;
@@ -11,7 +11,7 @@ Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsign
     _speed = speed;
     _health = health;
     _maxHealth = health;
-    _damage = damage;
+    _damage = _size / 5;
 
     _boundingBox = ofRectangle(_position - _size/2, _size, _size);
 
@@ -88,7 +88,7 @@ short Entity::getHealth() {
 
 unsigned short Entity::getDamage() {
     // return _damage;
-    return _size / 5;
+    return _damage;
 }
 
 ofRectangle Entity::getBoundingBox() {

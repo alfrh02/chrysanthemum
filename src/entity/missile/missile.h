@@ -11,4 +11,7 @@ class Missile : public Entity {
 
     private:
         double _creationTime;
+
+        unsigned char _lifespan = 2;
+        float _lifetime = 0;
 };

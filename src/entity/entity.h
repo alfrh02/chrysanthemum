@@ -7,7 +7,7 @@ using namespace glm;
 
 class Entity {
     public:
-        Entity(vec2 position = vec2(0, 0), vec2 direction = vec2(0, 0), float rotation = 0.0, float size = 20.0, unsigned short health = 100, float speed = 0.0, unsigned short damage = 5);
+        Entity(vec2 position = vec2(0, 0), vec2 direction = vec2(0, 0), float rotation = 0.0, float size = 20.0, unsigned short health = 100, float speed = 0.0);
 
         virtual void update(double deltaTime);
         virtual void draw();
