@@ -3,4 +3,6 @@
 Crystal::Crystal(vec2 position, double deltaTime)
 : Projectile(position, vec2(0, 0), 0.0, deltaTime) {
     _identity = "Crystal";
+
+    _colour = COLOURS.CRYSTAL;
 }

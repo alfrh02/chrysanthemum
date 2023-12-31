@@ -4,5 +4,5 @@ RichCrystalAsteroid::RichCrystalAsteroid(vec2 position)
 : Asteroid(position) {
     _identity = "richCrystalAsteroid";
 
-    _colour = COLOURS.MAGENTA;
+    _colour = COLOURS.RICH_CRYSTAL;
 }

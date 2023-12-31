@@ -23,4 +23,7 @@ const struct {
     ofColor ORANGE = ofColor(245, 179, 66);
     ofColor MAGENTA = ofColor(255, 0, 255);
     ofColor GOLD = ofColor(255, 160, 64);
+
+    ofColor CRYSTAL = GOLD;
+    ofColor RICH_CRYSTAL = MAGENTA;
 } COLOURS;
