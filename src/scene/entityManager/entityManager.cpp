@@ -18,29 +18,12 @@ void EntityManager::update(vec2 playerPosition,double deltaTime) {
         for (int y = i + 1; y < entities.size(); y++) {
             // using ofRectangle.instersects() that openFrameworks has kindly gifted us for AABB collision detection
             if (entities[i]->getBoundingBox().intersects(entities[y]->getBoundingBox())) {
-                string e1 = entities[i]->getIdentity();
-                string e2 = entities[y]->getIdentity();
-
-                // if (e1 == "Missile") {
-                //     entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed());
-                //     entities[y]->takeDamage(entities[i]->getDamage());
-
-                //     entities[i]->setHealth(0);
-                // } else if (e2 == "Missile") {
-                //     entities[i]->physicsCollision(entities[y]->getPosition(), entities[y]->getSpeed());
-                //     entities[i]->takeDamage(entities[y]->getDamage());
-
-                //     entities[y]->setHealth(0);
-                // } else {
-                //     entities[i]->physicsCollision(entities[y]->getPosition(), entities[i]->getSpeed());
-                //     entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed());
-                // }
                 entities[i]->physicsCollision(entities[y]->getPosition(), entities[y]->getSpeed(), entities[y]->getDamage());
                 entities[y]->physicsCollision(entities[i]->getPosition(), entities[i]->getSpeed(), entities[i]->getDamage());
             }
         }
 
-        if (distance(entities[i]->getPosition(), playerPosition) > _DELETION_DISTANCE) {
+        if (distance(entities[i]->getPosition(), playerPosition) > SETTINGS.SIMULATION_DISTANCE) {
             if (entities[i]->getIdentity() == "Asteroid") {
                 _asteroidAmount--;
             }
@@ -56,14 +39,14 @@ void EntityManager::update(vec2 playerPosition,double deltaTime) {
 
     while (_asteroidAmount < _MAX_ASTEROIDS) {
         vec2 pos = vec2(
-            ofRandom(_DELETION_DISTANCE) - _DELETION_DISTANCE/2,
-            ofRandom(_DELETION_DISTANCE) - _DELETION_DISTANCE/2
+            ofRandom(SETTINGS.SIMULATION_DISTANCE) - SETTINGS.SIMULATION_DISTANCE/2,
+            ofRandom(SETTINGS.SIMULATION_DISTANCE) - SETTINGS.SIMULATION_DISTANCE/2
         );
 
-        while (distance(pos + playerPosition, playerPosition) < _RENDER_DISTANCE / 2) {
+        while (distance(pos + playerPosition, playerPosition) < SETTINGS.RENDER_DISTANCE / 2) {
             pos = vec2(
-                ofRandom(_DELETION_DISTANCE) - _DELETION_DISTANCE/2,
-                ofRandom(_DELETION_DISTANCE) - _DELETION_DISTANCE/2
+                ofRandom(SETTINGS.SIMULATION_DISTANCE) - SETTINGS.SIMULATION_DISTANCE/2,
+                ofRandom(SETTINGS.SIMULATION_DISTANCE) - SETTINGS.SIMULATION_DISTANCE/2
             );
         }
         addAsteroid(pos + playerPosition);
@@ -72,7 +55,7 @@ void EntityManager::update(vec2 playerPosition,double deltaTime) {
 
 void EntityManager::draw(vec2 playerPosition) {
     for (Entity* e : entities) {
-        if (distance(e->getPosition(), playerPosition) < _RENDER_DISTANCE) {
+        if (distance(e->getPosition(), playerPosition) < SETTINGS.RENDER_DISTANCE) {
             e->draw();
         }
     }
@@ -80,7 +63,7 @@ void EntityManager::draw(vec2 playerPosition) {
 
 void EntityManager::drawBoundingBox(vec2 playerPosition) {
     for (Entity* e : entities) {
-        if (distance(e->getPosition(), playerPosition) < _RENDER_DISTANCE) {
+        if (distance(e->getPosition(), playerPosition) < SETTINGS.RENDER_DISTANCE) {
             e->drawBoundingBox();
         }
     }
@@ -88,8 +71,12 @@ void EntityManager::drawBoundingBox(vec2 playerPosition) {
 
 void EntityManager::addAsteroid(vec2 pos) {
     Asteroid* a;
-    if (ofRandom(1) > 0.5) {
-        a = new CrystalAsteroid(pos);
+    if (ofRandom(1) < SETTINGS.CRYSTAL_ASTEROID_SPAWN_CHANCE) {
+        if (ofRandom(1) < SETTINGS.RICH_CRYSTAL_ASTEROID_SPAWN_CHANCE) {
+            a = new RichCrystalAsteroid(pos);
+        } else {
+            a = new CrystalAsteroid(pos);
+        }
     } else {
         a = new Asteroid(pos);
     }

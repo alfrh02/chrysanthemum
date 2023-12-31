@@ -4,11 +4,12 @@
 // or are relevant enough to be put here
 // consider this the "settings"
 
-// the undefined are defined in ofApp::setup()
-struct {
-    unsigned int renderDistance;     // distance for which something should be calling draw()
-    unsigned int simulationDistance; // distance for which something should be considered alive - everything farther than this distance is deleted (other than the cargoship)
-} settings;
+const struct {
+    unsigned int RENDER_DISTANCE = 1920;           // distance for which something should be calling draw()
+    unsigned int SIMULATION_DISTANCE = 8192;       // distance for which something should be considered alive - everything farther than this distance is deleted (other than the cargoship)
+    float CRYSTAL_ASTEROID_SPAWN_CHANCE = 0.05;       // chance for a normal asteroid to become a crystal asteroid
+    float RICH_CRYSTAL_ASTEROID_SPAWN_CHANCE = 0.05;  // chance for a crystal asteroid to become a rich crystal asteroid
+} SETTINGS;
 
 // --- colours ---
 const struct {
@@ -21,4 +22,5 @@ const struct {
     ofColor BLUE = ofColor(0, 120, 255);
     ofColor ORANGE = ofColor(245, 179, 66);
     ofColor MAGENTA = ofColor(255, 0, 255);
+    ofColor GOLD = ofColor(180, 128, 12);
 } COLOURS;

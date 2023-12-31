@@ -2,8 +2,6 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    settings.renderDistance = ofGetWidth();
-    settings.simulationDistance = ofGetWidth() * 8;
 }
 
 //--------------------------------------------------------------

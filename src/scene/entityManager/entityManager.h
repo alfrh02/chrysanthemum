@@ -2,6 +2,7 @@
 
 #include "asteroid.h"
 #include "crystalAsteroid.h"
+#include "richCrystalAsteroid.h"
 #include "cargoShip.h"
 #include "missile.h"
 
@@ -22,7 +23,4 @@ class EntityManager {
 
         const unsigned short _MAX_ASTEROIDS = 1024;
         unsigned short _asteroidAmount = 0;
-
-        const unsigned short _DELETION_DISTANCE = 8000;
-        const unsigned short _RENDER_DISTANCE = ofGetWidth();
 };
