@@ -18,5 +18,6 @@ void Crystal::draw() {
         ofFill();
         ofSetColor(_color);
         ofDrawRectangle(0, 0, _size * _lifetime, _size * _lifetime);
+        ofNoFill();
     ofPopView();
 }

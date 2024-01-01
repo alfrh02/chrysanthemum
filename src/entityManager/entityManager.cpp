@@ -26,13 +26,6 @@ void EntityManager::update(double deltaTime) {
             Entity* e1 = entities[y];
 
             if (e->getIdentity() == "Crystal" || e1->getIdentity() == "Crystal") {
-                if (e->getIdentity() == "Player") {
-                    cout << "points " << endl;
-                    e1->setHealth(0);
-                } else if (e1->getIdentity() == "Player") {
-                    cout << "points " << endl;
-                    e->setHealth(0);
-                }
                 continue;
             }
 
@@ -40,6 +33,16 @@ void EntityManager::update(double deltaTime) {
             if (e->getBoundingBox().intersects(e1->getBoundingBox())) {
                 e->physicsCollision(e1->getPosition(), e1->getSpeed(), e1->getDamage());
                 e1->physicsCollision(e->getPosition(), e->getSpeed(), e->getDamage());
+            }
+        }
+
+        if (e->getIdentity() == "Crystal" && distance(e->getPosition(), playerPosition) < 128) {
+            e->setDirection(normalize(playerPosition - e->getPosition()));
+
+            if (e->getBoundingBox().intersects(player.getBoundingBox())) {
+                if (player.addCargo(1)) {
+                    e->setHealth(0);
+                };
             }
         }
 
@@ -106,9 +109,9 @@ void EntityManager::onDeath(unsigned short index, double deltaTime) {
         unsigned char crystalAmount = 0;
         if (e->getIdentity() == "RichCrystalAsteroid") {
             color = COLORS.RICH_CRYSTAL;
-            crystalAmount = ofRandom(8) + 8; // drops 8-16
+            crystalAmount = 16;
         } else if (e->getIdentity() == "CrystalAsteroid") {
-            crystalAmount = ofRandom(7) + 1; // drops 1-8
+            crystalAmount = 8;
         } else {
             if (ofRandom(1) < 0.25) { // 25% chance of dropping 1-2 crystals
                 crystalAmount = ofRandom(1) + 1;

@@ -21,7 +21,6 @@ void CargoShip::update(double deltaTime) {
 }
 
 void CargoShip::draw() {
-    ofNoFill();
     ofSetColor(COLORS.BLUE);
 
     ofPushView();

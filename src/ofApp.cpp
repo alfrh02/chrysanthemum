@@ -69,7 +69,7 @@ void ofApp::draw(){
         // framerate + deltatime
         ofDrawBitmapString(
             "            fps | " + to_string(ofGetFrameRate()),
-            vec2(8, 16Sh)
+            vec2(8, 16)
         );
 
         ofDrawBitmapString(

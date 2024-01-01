@@ -12,7 +12,6 @@ void Ship::draw() {
         ofTranslate(_position);
         ofRotateDeg(_rotation);
 
-        ofNoFill();
         ofSetColor(_color);
 
         ofSetPolyMode(OF_POLY_WINDING_ODD);

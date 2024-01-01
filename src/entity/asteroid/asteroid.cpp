@@ -25,7 +25,7 @@ Asteroid::Asteroid(vec2 position, vec2 direction, float rotation, float size, un
 void Asteroid::update(double deltaTime) {
     _boundingBox.setPosition(_position.x - _size/2, _position.y - _size/2);
     _rotation += _rotation_speed;
-    _position += _direction * _speed;
+    // _position += _direction * _speed;
 }
 
 void Asteroid::draw() {

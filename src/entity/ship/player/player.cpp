@@ -16,7 +16,7 @@ void Player::update(double deltaTime) {
 
     // if the player is holding down W or S, and `_speed` is between -_MAX_SPEED and _MAX_SPEED, we increase `_speed`
     if ((_w || _s) && (_speed < _MAX_SPEED && _speed > -_MAX_SPEED)) {
-        _speed += 0.1 * (_w - _s);
+        _speed += (_w - _s) * 0.1;
     } else { // otherwise we decrement/increment depending on `_speed`'s current value, to make it turn back to 0.
         if (_speed > 0) {
             _speed -= _SPEED_RETURN_RATE;
@@ -35,6 +35,29 @@ void Player::update(double deltaTime) {
             _rotation = 0;
         }
     }
+}
+
+void Player::draw() {
+    ofPushView();
+        ofTranslate(_position);
+
+        ofSetColor(_color);
+        // each letter is 8px wide, 11px tall
+        if (_cargo > 0) {
+            string s = to_string(_cargo) + "/" + to_string(_max_cargo);
+            ofDrawBitmapString(s, vec2(-((int)s.length() * 8) / 2, _size + _size/4));
+        }
+
+        ofRotateDeg(_rotation);
+        // ofDrawCircle(0, 0, 5);
+
+        ofSetPolyMode(OF_POLY_WINDING_ODD);
+        ofBeginShape();
+            ofVertex(-_size / 2, _size / 2);
+            ofVertex(0,         -_size / 2);
+            ofVertex(_size / 2,  _size / 2);
+        ofEndShape();
+    ofPopView();
 }
 
 void Player::keyPressed(int key) {
@@ -68,5 +91,14 @@ void Player::keyReleased(int key) {
         case 100:
             _d = false;
             break;
+    }
+}
+
+bool Player::addCargo(int cargo) {
+    if (_cargo < _max_cargo) {
+        _cargo++;
+        return true;
+    } else {
+        return false;
     }
 }

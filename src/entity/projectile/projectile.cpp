@@ -30,7 +30,6 @@ void Projectile::draw() {
         ofRotateDeg(_rotation);
         ofTranslate(vec2(-_size/2, -_size/2) * _lifetime);
 
-        ofNoFill();
         ofSetColor(_color);
         ofDrawRectangle(0, 0, _size * _lifetime, _size * _lifetime);
     ofPopView();
