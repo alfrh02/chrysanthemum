@@ -9,7 +9,12 @@ class CargoShip : public Entity {
         void update(double deltaTime) override;
         void draw() override;
 
+        bool addCargo(int cargo);
+
     private:
         float s = _size; // used in draw(), modified by deltaTime in update()
         bool _hazardLights = true;
+
+        short _cargo = 0;
+        unsigned short _max_cargo = 1024;
 };

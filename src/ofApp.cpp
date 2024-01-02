@@ -57,7 +57,7 @@ void ofApp::draw(){
         dir += 1;
         dir /= 2;
 
-        vec2 pos = vec2(ofGetWidth() * dir.x + 1, ofGetHeight() * dir.y);
+        vec2 pos = vec2(ofGetWidth() * dir.x, ofGetHeight() * dir.y);
 
         ofDrawCircle(pos, 10);
     }

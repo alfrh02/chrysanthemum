@@ -14,6 +14,8 @@ class Player : public Ship {
 
         bool addCargo(int cargo);
 
+        short getCargo();
+
     private:
         // player input
         // toggled to true on key input, used in vectors for player movement
@@ -22,6 +24,6 @@ class Player : public Ship {
         bool _s = false;
         bool _d = false;
 
-        unsigned short _cargo = 0;
+        short _cargo = 0;
         unsigned short _max_cargo = 32;
 };

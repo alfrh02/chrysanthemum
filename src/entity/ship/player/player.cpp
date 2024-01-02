@@ -95,10 +95,13 @@ void Player::keyReleased(int key) {
 }
 
 bool Player::addCargo(int cargo) {
-    if (_cargo < _max_cargo) {
-        _cargo++;
-        return true;
-    } else {
+    _cargo += cargo;
+    if (_cargo > _max_cargo) {
+        _cargo = _max_cargo;
+        return false;
+    } else if (_cargo < 0) {
+        _cargo = 0;
         return false;
     }
+    return true;
 }

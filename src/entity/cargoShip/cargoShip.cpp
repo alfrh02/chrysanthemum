@@ -21,10 +21,18 @@ void CargoShip::update(double deltaTime) {
 }
 
 void CargoShip::draw() {
-    ofSetColor(COLORS.BLUE);
 
     ofPushView();
         ofTranslate(_position);
+
+        ofSetColor(COLORS.FOREGROUND);
+        // each letter is 8px wide, 11px tall
+        if (_cargo > 0) {
+            string str = to_string(_cargo) + "/" + to_string(_max_cargo);
+            ofDrawBitmapString(str, vec2(-((int)str.length() * 8) / 2, s + s/4));
+        }
+
+        ofSetColor(COLORS.BLUE);
 
         ofDrawRectangle(vec2(-s/2, -s/2), s, s);
         ofDrawLine(vec2(-s/2, -s/2), vec2(s/2, s/2));
@@ -65,4 +73,16 @@ void CargoShip::draw() {
             ofDrawCircle(vec2(s, s*2), s/10);
         }
     ofPopView();
+}
+
+bool CargoShip::addCargo(int cargo) {
+    _cargo += cargo;
+    if (_cargo > _max_cargo) {
+        _cargo = _max_cargo;
+        return false;
+    } else if (_cargo < 0) {
+        _cargo = 0;
+        return false;
+    }
+    return true;
 }

@@ -63,6 +63,12 @@ void EntityManager::update(double deltaTime) {
         }
     }
 
+    if (cargoship.getBoundingBox().intersects(player.getBoundingBox())) {
+        if (player.addCargo(-1)) {
+            cargoship.addCargo(1);
+        }
+    }
+
     while (_asteroidAmount < _MAX_ASTEROIDS) {
         vec2 pos = vec2(
             ofRandom(SETTINGS.SIMULATION_DISTANCE) - SETTINGS.SIMULATION_DISTANCE/2,
