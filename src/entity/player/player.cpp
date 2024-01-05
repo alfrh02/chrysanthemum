@@ -1,11 +1,10 @@
 #include "player.h"
 
 Player::Player(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed)
-: Ship(position, direction, rotation, size, health, speed) {
+: Entity(position, direction, rotation, size, health, speed) {
     _identity = "Player";
+    _type = "Player";
     _rotation_speed = 1.25;
-
-    cout << "Spawned player" << endl;
 }
 
 void Player::update(double deltaTime) {
@@ -14,10 +13,10 @@ void Player::update(double deltaTime) {
     // calculate directional vector
     _direction = vec2(sin(ofDegToRad(_rotation)), -cos(ofDegToRad(_rotation)));
 
-    // if the player is holding down W or S, and `_speed` is between -_MAX_SPEED and _MAX_SPEED, we increase `_speed`
+    // calculate our speed based on if our player is holding W or S, & whether or not we are already at maximum speed
     if ((_w || _s) && (_speed < _MAX_SPEED && _speed > -_MAX_SPEED)) {
         _speed += (_w - _s) * 0.1;
-    } else { // otherwise we decrement/increment depending on `_speed`'s current value, to make it turn back to 0.
+    } else { // if we are not holding W or S we decrement/increment depending on `_speed`'s current value, to make it turn back to 0
         if (_speed > 0) {
             _speed -= _SPEED_RETURN_RATE;
         } else if (_speed < 0) {
@@ -25,31 +24,32 @@ void Player::update(double deltaTime) {
         }
     }
 
-    _position += _direction * round(_speed);
-
+    // calculate rotation. the player cannot rotate if they are not moving
     if (round(_speed) != 0) {
         _rotation += (_d - _a) * _rotation_speed;
-        if (_rotation <= 0) {
+        if (_rotation <= 0) { // keep rotation within 360 degrees
             _rotation = 359;
         } else if (_rotation >= 360) {
             _rotation = 0;
         }
     }
+
+    _position += _direction * round(_speed);
 }
 
 void Player::draw() {
     ofPushView();
         ofTranslate(_position);
 
-        ofSetColor(_color);
-        // each letter is 8px wide, 11px tall
+        ofSetColor(COLORS.FOREGROUND);
+
+        // draw cargo amount - each letter is 8px wide, 11px tall
         if (_cargo > 0) {
             string s = to_string(_cargo) + "/" + to_string(_max_cargo);
             ofDrawBitmapString(s, vec2(-((int)s.length() * 8) / 2, _size + _size/4));
         }
 
         ofRotateDeg(_rotation);
-        // ofDrawCircle(0, 0, 5);
 
         ofSetPolyMode(OF_POLY_WINDING_ODD);
         ofBeginShape();
@@ -62,16 +62,16 @@ void Player::draw() {
 
 void Player::keyPressed(int key) {
     switch(key) {
-        case 119:
+        case 'w':
             _w = true;
             break;
-        case 97:
+        case 'a':
             _a = true;
             break;
-        case 115:
+        case 's':
             _s = true;
             break;
-        case 100:
+        case 'd':
             _d = true;
             break;
     }
@@ -79,16 +79,16 @@ void Player::keyPressed(int key) {
 
 void Player::keyReleased(int key) {
     switch(key) {
-        case 119:
+        case 'w':
             _w = false;
             break;
-        case 97:
+        case 'a':
             _a = false;
             break;
-        case 115:
+        case 's':
             _s = false;
             break;
-        case 100:
+        case 'd':
             _d = false;
             break;
     }

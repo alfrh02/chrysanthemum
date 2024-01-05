@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "config.h"
+#include "colors.h"
 
 using namespace glm;
 
@@ -27,7 +27,6 @@ class Entity {
         vec2 getPosition();
         vec2 getDirection();
         float getRotation();
-        float getSize();
         float getSpeed();
         short getHealth();
         unsigned short getDamage();

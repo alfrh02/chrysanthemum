@@ -13,7 +13,7 @@ void Crystal::draw() {
     ofPushView();
         ofTranslate(_position);
         ofRotateDeg(_rotation);
-        ofTranslate(vec2(-_size/2, -_size/2) * _lifetime);
+        ofTranslate(vec2(-_size/2, -_size/2) * _lifetime); // centre translate
 
         ofFill();
         ofSetColor(_color);

@@ -11,11 +11,8 @@ void CargoShip::update(double deltaTime) {
     _boundingBox.setWidth(s*2);
     _boundingBox.setHeight(s*6);
 
-    if (int(deltaTime) % 2) {
-        _hazardLights = true;
-    } else {
-        _hazardLights = false;
-    }
+    // hazard lights are on every other second
+    _hazardLights = int(deltaTime) % 2;
 
     s = _size + (sin(deltaTime)*3);
 }
@@ -25,7 +22,8 @@ void CargoShip::draw() {
         ofTranslate(_position);
 
         ofSetColor(COLORS.FOREGROUND);
-        // each letter is 8px wide, 11px tall
+
+        // draw cargo amount - each letter is 8px wide, 11px tall
         if (_cargo > 0) {
             string str = to_string(_cargo) + "/" + to_string(_max_cargo);
             ofDrawBitmapString(str, vec2(-((int)str.length() * 8) / 2, s*5));

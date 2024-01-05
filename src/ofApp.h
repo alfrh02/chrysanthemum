@@ -37,8 +37,8 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
         void addAsteroid(vec2 pos);
-        void addMissile(vec2 pos, vec2 dir, float rot, double deltaTime);
-        void addCrystal(vec2 pos, vec2 dir, double deltaTime, ofColor color);
+        void addMissile(vec2 pos, vec2 dir, float rot);
+        void addCrystal(vec2 pos, vec2 dir, ofColor color);
 
 		double deltaTime = 0;
 		bool debugMode = false;
@@ -49,7 +49,7 @@ class ofApp : public ofBaseApp{
 		vector<Entity*> entities;
 
 		const unsigned short MAX_ASTEROIDS = 512;
-        unsigned short asteroidAmount = 0;
+        unsigned short asteroidAmount = 0;				 // used to ensure there is a consistent amount of asteroids in the scene at any time
 
 		unsigned int RENDER_DISTANCE = ofGetWidth();     // distance for which something should be calling draw()
 		unsigned int SIMULATION_DISTANCE = 4096;         // distance for which something should be considered alive - everything farther than this distance is deleted (other than the cargoship)

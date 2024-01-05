@@ -13,6 +13,9 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    deltaTime += ofGetLastFrameTime();
+
+    // update player & cargoship
     player.update(deltaTime);
     cargoship.update(deltaTime);
 
@@ -35,8 +38,7 @@ void ofApp::update(){
         addAsteroid(pos + playerPosition);
     }
 
-    deltaTime += ofGetLastFrameTime();
-
+    // update all entities
     for (int i = 0; i < entities.size(); i++) {
         Entity* e = entities[i];
         e->update(deltaTime);
@@ -93,7 +95,7 @@ void ofApp::update(){
                 }
 
                 for (int i = 0; i < crystalAmount; i++) {
-                    addCrystal(e->getPosition(), vec2(cos(i/2), sin(i/2)), deltaTime, color);
+                    addCrystal(e->getPosition(), vec2(cos(i/2), sin(i/2)), color);
                 }
             }
 
@@ -114,6 +116,8 @@ void ofApp::draw(){
     // --- DRAW SCENE ---
     ofPushView();
         ofTranslate(ofGetWidth() / 2 - playerPosition.x, ofGetHeight() / 2 - playerPosition.y);
+
+        ofNoFill();
 
         player.draw();
         cargoship.draw();
@@ -164,16 +168,16 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    player.keyPressed(key);
-
     switch(key) {
-        case 32: // space
-            addMissile(player.getPosition(), player.getDirection(), player.getRotation(), deltaTime);
+        case ' ':
+            addMissile(player.getPosition(), player.getDirection(), player.getRotation());
             break;
-        case 96: // ` tilde
+        case '`':
             debugMode = !debugMode;
             break;
     }
+
+    player.keyPressed(key);
 }
 
 //--------------------------------------------------------------
@@ -193,8 +197,9 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    // entities.addAsteroid((vec2(x, y) + playerPosition) - vec2(ofGetWidth() / 2, ofGetHeight() / 2));
-    // entities.addEnemy(vec2(x, y) + entities.player.getPosition() - vec2(ofGetWidth() / 2, ofGetHeight() / 2));
+    if (debugMode) {
+        addAsteroid((vec2(x, y) + player.getPosition()) - vec2(ofGetWidth() / 2, ofGetHeight() / 2));
+    }
 }
 
 //--------------------------------------------------------------
@@ -230,6 +235,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 //--------------------------------------------------------------
 void ofApp::addAsteroid(vec2 pos) {
     Asteroid* a;
+
     if (ofRandom(1) < CRYSTAL_ASTEROID_SPAWN_CHANCE) {
         if (ofRandom(1) < RICH_CRYSTAL_ASTEROID_SPAWN_CHANCE) {
             a = new RichCrystalAsteroid(pos);
@@ -239,18 +245,19 @@ void ofApp::addAsteroid(vec2 pos) {
     } else {
         a = new Asteroid(pos);
     }
+
     entities.push_back(a);
     asteroidAmount++;
 }
 
 //--------------------------------------------------------------
-void ofApp::addMissile(vec2 pos, vec2 dir, float rot, double deltaTime) {
+void ofApp::addMissile(vec2 pos, vec2 dir, float rot) {
     Missile* m = new Missile(pos, dir, rot, deltaTime);
     entities.push_back(m);
 }
 
 //--------------------------------------------------------------
-void ofApp::addCrystal(vec2 pos, vec2 dir, double deltaTime, ofColor color) {
+void ofApp::addCrystal(vec2 pos, vec2 dir, ofColor color) {
     Crystal* c = new Crystal(pos, dir, deltaTime, color);
     entities.push_back(c);
 }

@@ -12,7 +12,7 @@ class CargoShip : public Entity {
         bool addCargo(int cargo);
 
     private:
-        float s = _size; // used in draw(), modified by deltaTime in update()
+        float s = _size; // we are modifying `s` (using sin()) so that we don't have to modify `_size`
         bool _hazardLights = true;
 
         short _cargo = 0;

@@ -10,7 +10,7 @@ Asteroid::Asteroid(vec2 position, vec2 direction, float rotation, float size, un
     _yAmp = yAmp;
 
     _speed = ofRandom(1) * 0.05;
-    _rotation_speed = (ofRandom(2) + 0.2) * 0.1; // set rotation speed to something random + slow
+    _rotation_speed = (ofRandom(2) + 0.2) * 0.1;
 
     if (ofRandom(1) > 0.5) { // rotation speed has a 50% chance of inverting
         _rotation_speed = -_rotation_speed;
@@ -22,21 +22,13 @@ Asteroid::Asteroid(vec2 position, vec2 direction, float rotation, float size, un
     _color = COLORS.FOREGROUND;
 }
 
-void Asteroid::update(double deltaTime) {
-    _boundingBox.setPosition(_position.x - _size/2, _position.y - _size/2);
-    _rotation += _rotation_speed;
-    _position += _direction * _speed;
-}
-
 void Asteroid::draw() {
-    ofSetColor(_color);
-    ofNoFill();
-
     ofPushView();
         ofTranslate(_position);
         ofRotateDeg(_rotation);
-        ofTranslate(vec2(-_size/4, -_size/4));
+        ofTranslate(vec2(-_size/4, -_size/4)); // centre translate
 
+        ofSetColor(_color);
         ofBeginShape();
             for (float i = 0; i < 6; i += 0.5) {
                 ofVertex(

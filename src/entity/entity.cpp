@@ -22,6 +22,8 @@ Entity::Entity(vec2 position, vec2 direction, float rotation, float size, unsign
 void Entity::update(double deltaTime) {
     // for some reason ofRectangle.setPosition() will not take a vec2, but will take x and y individually.
     _boundingBox.setPosition(_position.x - _size/2, _position.y - _size/2);
+    _rotation += _rotation_speed;
+    _position += _direction * _speed;
 }
 
 void Entity::draw() {
@@ -32,10 +34,7 @@ void Entity::drawBoundingBox() {
     ofSetColor(COLORS.RED);
     ofDrawRectangle(_boundingBox);
 
-    // ofDrawBitmapStringHighlight(to_string(_health), _position + vec2(_size/2, 0), COLOURS.RED, COLOURS.FOREGROUND);
-    ofDrawBitmapString(to_string(_health), _position + vec2(_size/2, 0));
-    // ofDrawBitmapStringHighlight(_identity, _position + vec2(0, 16), COLOURS.RED, COLOURS.FOREGROUND);
-    // ofDrawBitmapStringHighlight(to_string(_position.x) + ", " + to_string(_position.y), _position + vec2(0, 32), COLOURS.RED, COLOURS.FOREGROUND);
+    ofDrawBitmapStringHighlight(to_string(_health), _position + vec2(_size/2, 0), COLORS.RED, COLORS.FOREGROUND);
 
     ofSetColor(COLORS.GREEN);
     ofDrawLine(_position, _position + (_direction * _size));
@@ -79,10 +78,6 @@ float Entity::getRotation() {
     return _rotation;
 }
 
-float Entity::getSize() {
-    return _size;
-}
-
 float Entity::getSpeed() {
     return _speed;
 }
@@ -92,7 +87,6 @@ short Entity::getHealth() {
 }
 
 unsigned short Entity::getDamage() {
-    // return _damage;
     return _damage;
 }
 
