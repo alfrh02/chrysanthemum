@@ -18,76 +18,15 @@ void ofApp::update(){
 
     vec2 playerPosition = player.getPosition();
 
-    for (int i = 0; i < entities.size(); i++) {
-        Entity* e = entities[i];
-        e->update(deltaTime);
-
-        // collision detection
-        // iterate through the rest of the items in the vector (especially so we aren't comparing e to itself)
-        for (int y = i + 1; y < entities.size(); y++) {
-            Entity* e1 = entities[y];
-
-            string e_identity = e->getType();
-            string e1_identity = e1->getType();
-
-
-            if (e->getIdentity() == "Crystal" || e1->getIdentity() == "Crystal") {
-                continue;
-            }
-
-            if (e->getType() != "Projectile" && e1->getType() != "Projectile") {
-                if (e_identity != e1_identity) {
-                    continue;
-                }
-            }
-
-            // using ofRectangle.instersects() that openFrameworks has kindly gifted us for AABB collision detection
-            if (e->getBoundingBox().intersects(e1->getBoundingBox())) {
-                e->physicsCollision(e1->getPosition(), e1->getSpeed(), e1->getDamage());
-                e1->physicsCollision(e->getPosition(), e->getSpeed(), e->getDamage());
-            }
-        }
-
-        if (e->getIdentity() == "Crystal" && distance(e->getPosition(), playerPosition) < 128) {
-            e->setDirection(normalize(playerPosition - e->getPosition()));
-
-            if (e->getBoundingBox().intersects(player.getBoundingBox())) {
-                if (player.addCargo(1)) {
-                    e->setHealth(0);
-                };
-            }
-        }
-
-        // set entities who are outside of the simulation distance to dead
-        if (distance(e->getPosition(), playerPosition) > SIMULATION_DISTANCE) {
-            if (e->getType() == "Asteroid") {
-                asteroidAmount--;
-            }
-            e->setHealth(0);
-        }
-
-        // delete dead entities
-        if (e->getHealth() <= 0) {
-            onDeath(i, deltaTime);
-            delete e;
-            entities.erase(entities.begin() + i);
-            i--;
-        }
-    }
-
     if (cargoship.getBoundingBox().intersects(player.getBoundingBox())) {
-        if (player.addCargo(-1)) {
+        if (player.addCargo(-1)) { // if we can subtract 1 from the players cargo, we will add it to the cargoship's cargo
             cargoship.addCargo(1);
         }
     }
 
     while (asteroidAmount < MAX_ASTEROIDS) {
-        vec2 pos = vec2(
-            ofRandom(SIMULATION_DISTANCE) - SIMULATION_DISTANCE/2,
-            ofRandom(SIMULATION_DISTANCE) - SIMULATION_DISTANCE/2
-        );
-
-        while (distance(pos + playerPosition, playerPosition) < RENDER_DISTANCE / 2) {
+        vec2 pos = vec2(0, 0);
+        while (distance(pos + playerPosition, playerPosition) < RENDER_DISTANCE / 2) { // guarantee asteroid is outside of render distance but within simulation distance
             pos = vec2(
                 ofRandom(SIMULATION_DISTANCE) - SIMULATION_DISTANCE/2,
                 ofRandom(SIMULATION_DISTANCE) - SIMULATION_DISTANCE/2
@@ -97,6 +36,72 @@ void ofApp::update(){
     }
 
     deltaTime += ofGetLastFrameTime();
+
+    for (int i = 0; i < entities.size(); i++) {
+        Entity* e = entities[i];
+        e->update(deltaTime);
+
+        // make crystals move towards the player when the player is in range
+        // & player-crystal collision detection
+        if (e->getIdentity() == "Crystal" && distance(e->getPosition(), playerPosition) < 128) {
+            e->setDirection(normalize(playerPosition - e->getPosition()));
+            if (e->getBoundingBox().intersects(player.getBoundingBox())) {
+                if (player.addCargo(1)) {
+                    e->setHealth(0);
+                };
+            }
+        }
+
+        for (int y = i + 1; y < entities.size(); y++) {
+            Entity* e1 = entities[y];
+
+            // exclude crystals from collision detection w/ asteroids and missiles
+            if (e->getIdentity() == "Crystal" || e1->getIdentity() == "Crystal") {
+                continue;
+            }
+
+            // using ofRectangle.instersects() that openFrameworks has kindly gifted us for AABB collision detection
+            if (e->getBoundingBox().intersects(e1->getBoundingBox())) {
+                e->physicsCollision(e1->getPosition(), e1->getSpeed(), e1->getDamage());
+                e1->physicsCollision(e->getPosition(), e->getSpeed(), e->getDamage());
+            }
+        }
+
+        // set entities who are outside of the simulation distance to dead
+        if (distance(e->getPosition(), playerPosition) > SIMULATION_DISTANCE) {
+            e->setHealth(0);
+        }
+
+        // delete dead entities
+        if (e->getHealth() <= 0) {
+
+            // calculate asteroid drops
+            if (e->getType() == "Asteroid") {
+                asteroidAmount--;
+
+                ofColor color = COLORS.CRYSTAL;
+                unsigned char crystalAmount = 0;
+                if (e->getIdentity() == "RichCrystalAsteroid") {
+                    color = COLORS.RICH_CRYSTAL;
+                    crystalAmount = 8;
+                } else if (e->getIdentity() == "CrystalAsteroid") {
+                    crystalAmount = 4;
+                } else {
+                    if (ofRandom(1) < 0.25) { // 25% chance of dropping 1-2 crystals
+                        crystalAmount = ofRandom(1) + 1;
+                    }
+                }
+
+                for (int i = 0; i < crystalAmount; i++) {
+                    addCrystal(e->getPosition(), vec2(cos(i/2), sin(i/2)), deltaTime, color);
+                }
+            }
+
+            delete e;
+            entities.erase(entities.begin() + i);
+            i--;
+        }
+    }
 }
 
 //--------------------------------------------------------------
@@ -106,11 +111,17 @@ void ofApp::draw(){
     vec2 playerPosition = player.getPosition();
     vec2 cargoshipPosition = cargoship.getPosition();
 
-    // draw scene
+    // --- DRAW SCENE ---
     ofPushView();
         ofTranslate(ofGetWidth() / 2 - playerPosition.x, ofGetHeight() / 2 - playerPosition.y);
+
         player.draw();
         cargoship.draw();
+        if (debugMode) {
+            player.drawBoundingBox();
+            cargoship.drawBoundingBox();
+        }
+
         for (Entity* e : entities) {
             if (distance(e->getPosition(), player.getPosition()) < RENDER_DISTANCE) {
                 e->draw();
@@ -121,9 +132,7 @@ void ofApp::draw(){
         }
     ofPopView();
 
-    // draw static GUI
-
-    // cargoship pointer
+    // --- DRAW GUI ---
     if (distance(playerPosition, cargoshipPosition) > ofGetHeight() / 2) {
         ofSetColor(COLORS.BLUE);
 
@@ -139,24 +148,11 @@ void ofApp::draw(){
     if (debugMode) {
         ofSetColor(COLORS.GREEN);
 
-        // top left
-        // framerate + deltatime
-        ofDrawBitmapString(
-            "            fps | " + to_string(ofGetFrameRate()),
-            vec2(8, 16)
-        );
+        ofDrawBitmapString("            fps | " + to_string(ofGetFrameRate()), vec2(8, 16));
+        ofDrawBitmapString("   time elapsed | " + to_string(deltaTime), vec2(8, 32));
+        ofDrawBitmapString("player position | x " + to_string(playerPosition.x) + " y " + to_string(playerPosition.y), vec2(8, 48));
+        ofDrawBitmapString("asteroid amount | " + to_string(asteroidAmount), vec2(8, 64));
 
-        ofDrawBitmapString(
-            "   time elapsed | " + to_string(deltaTime),
-            vec2(8, 32)
-        );
-
-        ofDrawBitmapString(
-            "player position | x " + to_string(playerPosition.x) + " y " + to_string(playerPosition.y),
-            vec2(8, 48)
-        );
-
-        // mouse coordinates
         ofDrawBitmapStringHighlight(
             to_string(ofGetMouseX()) + ", " + to_string(ofGetMouseY()),
             vec2(ofGetMouseX(), ofGetMouseY()),
@@ -229,30 +225,6 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){
 
-}
-
-//--------------------------------------------------------------
-void ofApp::onDeath(unsigned short index, double deltaTime) {
-    Entity* e = entities[index];
-    ofColor color = COLORS.CRYSTAL;
-
-    if (e->getType() == "Asteroid") {
-        unsigned char crystalAmount = 0;
-        if (e->getIdentity() == "RichCrystalAsteroid") {
-            color = COLORS.RICH_CRYSTAL;
-            crystalAmount = 16;
-        } else if (e->getIdentity() == "CrystalAsteroid") {
-            crystalAmount = 8;
-        } else {
-            if (ofRandom(1) < 0.25) { // 25% chance of dropping 1-2 crystals
-                crystalAmount = ofRandom(1) + 1;
-            }
-        }
-
-        for (int i = 0; i < crystalAmount; i++) {
-            addCrystal(e->getPosition(), vec2(cos(i/2), sin(i/2)), deltaTime, color);
-        }
-    }
 }
 
 //--------------------------------------------------------------

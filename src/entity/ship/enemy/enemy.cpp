@@ -21,7 +21,7 @@ void Enemy::draw() {
         ofRotateDeg(_rotation);
 
         ofSetColor(_color);
-        ofDrawCircle(0, 0, 5);
+        ofDrawCircle(0, 0, _size/4);
 
         ofSetPolyMode(OF_POLY_WINDING_ODD);
         ofBeginShape();
