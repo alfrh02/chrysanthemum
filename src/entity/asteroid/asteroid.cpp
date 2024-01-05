@@ -1,13 +1,9 @@
 #include "asteroid.h"
 
-Asteroid::Asteroid(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed, float seed, float xAmp, float yAmp)
+Asteroid::Asteroid(vec2 position, vec2 direction, float rotation, float size, unsigned short health, float speed)
 : Entity(position, direction, rotation, size, health, speed) {
     _identity = "Asteroid";
     _type = "Asteroid";
-
-    _seed = seed;
-    _xAmp = xAmp;
-    _yAmp = yAmp;
 
     _speed = ofRandom(1) * 0.05;
     _rotation_speed = (ofRandom(2) + 0.2) * 0.1;

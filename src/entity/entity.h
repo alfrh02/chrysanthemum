@@ -16,14 +16,12 @@ class Entity {
 
         void physicsCollision(vec2 colliderPosition, float colliderSpeed, unsigned short damage);
 
-        // setters
         void setPosition(vec2 position);
         void setDirection(vec2 direction);
         void setSize(float size);
         void setSpeed(float speed);
         void setHealth(unsigned short health);
 
-        // getters
         vec2 getPosition();
         vec2 getDirection();
         float getRotation();
