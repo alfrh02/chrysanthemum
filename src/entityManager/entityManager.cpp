@@ -25,8 +25,18 @@ void EntityManager::update(double deltaTime) {
         for (int y = i + 1; y < entities.size(); y++) {
             Entity* e1 = entities[y];
 
+            string e_identity = e->getType();
+            string e1_identity = e1->getType();
+
+
             if (e->getIdentity() == "Crystal" || e1->getIdentity() == "Crystal") {
                 continue;
+            }
+
+            if (e->getType() != "Projectile" && e1->getType() != "Projectile") {
+                if (e_identity != e1_identity) {
+                    continue;
+                }
             }
 
             // using ofRectangle.instersects() that openFrameworks has kindly gifted us for AABB collision detection
@@ -153,4 +163,9 @@ void EntityManager::addMissile(vec2 pos, vec2 dir, float rot, double deltaTime) 
 void EntityManager::addCrystal(vec2 pos, vec2 dir, double deltaTime, ofColor color) {
     Crystal* c = new Crystal(pos, dir, deltaTime, color);
     entities.push_back(c);
+}
+
+void EntityManager::addEnemy(vec2 pos) {
+    Enemy* e = new Enemy(pos);
+    entities.push_back(e);
 }

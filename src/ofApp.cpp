@@ -124,6 +124,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
     // entities.addAsteroid((vec2(x, y) + playerPosition) - vec2(ofGetWidth() / 2, ofGetHeight() / 2));
+    entities.addEnemy(vec2(x, y) + entities.player.getPosition() - vec2(ofGetWidth() / 2, ofGetHeight() / 2));
 }
 
 //--------------------------------------------------------------

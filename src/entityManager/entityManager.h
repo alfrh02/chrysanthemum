@@ -9,6 +9,7 @@
 #include "cargoShip.h"
 
 #include "player.h"
+#include "enemy.h"
 
 #include "missile.h"
 
@@ -25,6 +26,7 @@ class EntityManager {
         void addAsteroid(vec2 pos);
         void addMissile(vec2 pos, vec2 dir, float rot, double deltaTime);
         void addCrystal(vec2 pos, vec2 dir, double deltaTime, ofColor color);
+        void addEnemy(vec2 pos);
 
         Player player;
 		CargoShip cargoship;

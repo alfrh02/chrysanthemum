@@ -21,7 +21,6 @@ void CargoShip::update(double deltaTime) {
 }
 
 void CargoShip::draw() {
-
     ofPushView();
         ofTranslate(_position);
 
@@ -29,7 +28,7 @@ void CargoShip::draw() {
         // each letter is 8px wide, 11px tall
         if (_cargo > 0) {
             string str = to_string(_cargo) + "/" + to_string(_max_cargo);
-            ofDrawBitmapString(str, vec2(-((int)str.length() * 8) / 2, s + s/4));
+            ofDrawBitmapString(str, vec2(-((int)str.length() * 8) / 2, s*5));
         }
 
         ofSetColor(COLORS.BLUE);
