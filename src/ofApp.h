@@ -42,6 +42,7 @@ class ofApp : public ofBaseApp{
 
 		double deltaTime = 0;
 		bool debugMode = false;
+		bool helpText = true;
 
         Player player;
 		CargoShip cargoship;
@@ -49,11 +50,11 @@ class ofApp : public ofBaseApp{
 		vector<Entity*> entities;
 
 		const unsigned short MAX_ASTEROIDS = 512;
-        unsigned short asteroidAmount = 0;				 // used to ensure there is a consistent amount of asteroids in the scene at any time
+        unsigned short asteroidAmount = 0;				   // used to ensure there is a consistent amount of asteroids in the scene at any time
 
-		unsigned int RENDER_DISTANCE = ofGetWidth();     // distance for which something should be calling draw()
-		unsigned int SIMULATION_DISTANCE = 4096;         // distance for which something should be considered alive - everything farther than this distance is deleted (other than the cargoship)
+		const unsigned int RENDER_DISTANCE = ofGetWidth(); // distance for which something should be calling draw()
+		const unsigned int SIMULATION_DISTANCE = 4096;     // distance for which something should be considered alive - everything farther than this distance is deleted (other than the cargoship)
 
-		float CRYSTAL_ASTEROID_SPAWN_CHANCE = 0.05;      // chance for a normal asteroid to become a crystal asteroid
-		float RICH_CRYSTAL_ASTEROID_SPAWN_CHANCE = 0.05; // chance for a crystal asteroid to become a rich crystal asteroid
+		float CRYSTAL_ASTEROID_SPAWN_CHANCE = 0.05;        // chance for a normal asteroid to become a crystal asteroid
+		float RICH_CRYSTAL_ASTEROID_SPAWN_CHANCE = 0.05;   // chance for a crystal asteroid to become a rich crystal asteroid
 };

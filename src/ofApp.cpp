@@ -9,6 +9,7 @@ ofApp::~ofApp(){
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofNoFill();
 }
 
 //--------------------------------------------------------------
@@ -117,8 +118,6 @@ void ofApp::draw(){
     ofPushView();
         ofTranslate(ofGetWidth() / 2 - playerPosition.x, ofGetHeight() / 2 - playerPosition.y);
 
-        ofNoFill();
-
         player.draw();
         cargoship.draw();
         if (debugMode) {
@@ -149,13 +148,37 @@ void ofApp::draw(){
         ofDrawCircle(pos, 10);
     }
 
-    if (debugMode) {
-        ofSetColor(COLORS.GREEN);
+    if (helpText) {
+        stringstream s;
+        s << "                                                   " << endl;
+        s << "use WASD to move - you can only rotate while moving" << endl;
+        s << "          press `space` to fire a missile          " << endl;
+        s << "                                                   " << endl;
+        s << "           search for crystal asteroids:           " << endl;
+        s << "        gold asteroids will give 4 crystals        " << endl;
+        s << " pink asteroids are rarer but will give 8 crystals " << endl;
+        s << "                                                   " << endl;
+        s << "       bring crystals back to your cargo ship      " << endl;
+        s << "           until your cargo ship is full           " << endl;
+        s << "                                                   " << endl;
+        s << "           press `h` to hide this message          " << endl;
 
-        ofDrawBitmapString("            fps | " + to_string(ofGetFrameRate()), vec2(8, 16));
-        ofDrawBitmapString("   time elapsed | " + to_string(deltaTime), vec2(8, 32));
-        ofDrawBitmapString("player position | x " + to_string(playerPosition.x) + " y " + to_string(playerPosition.y), vec2(8, 48));
-        ofDrawBitmapString("asteroid amount | " + to_string(asteroidAmount), vec2(8, 64));
+        // offset X coordinate by (54/2) as each line is 54 characters long
+        // offset Y coordinate by (12/2) as there are 12 lines
+        // one character is 8px wide and 11px tall
+        ofDrawBitmapStringHighlight(s.str().c_str(), vec2(ofGetWidth() / 2 - 27 * 8, ofGetHeight() / 2 - 6 * 11), COLORS.FOREGROUND, COLORS.BACKGROUND);
+    }
+
+    if (debugMode) {
+        stringstream s;
+
+        s << "            fps | "   << to_string(ofGetFrameRate()) << endl;
+        s << "   time elapsed | "   << to_string(deltaTime) << endl;
+        s << "player position | x " << to_string(playerPosition.x) + " y " + to_string(playerPosition.y) << endl;
+        s << "asteroid amount | "   << to_string(asteroidAmount) << endl;
+
+        ofSetColor(COLORS.GREEN);
+        ofDrawBitmapString(s.str().c_str(), vec2(8, 16));
 
         ofDrawBitmapStringHighlight(
             to_string(ofGetMouseX()) + ", " + to_string(ofGetMouseY()),
@@ -171,6 +194,9 @@ void ofApp::keyPressed(int key){
     switch(key) {
         case ' ':
             addMissile(player.getPosition(), player.getDirection(), player.getRotation());
+            break;
+        case 'h':
+            helpText = !helpText;
             break;
         case '`':
             debugMode = !debugMode;
